@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -26,8 +27,8 @@ namespace WebSRTransport
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSignalR();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,9 +43,22 @@ namespace WebSRTransport
                 app.UseHsts();
             }
 
+            
+
+            // подключаем CORS
+            app.UseCors(builder => builder.WithOrigins(
+                    "https://localhost:8080",
+                    "https://localhost:9999"
+                    ).AllowAnyOrigin()
+                     .AllowAnyHeader()
+                     .AllowAnyMethod()
+                     .AllowCredentials());
+
+
             app.UseSignalR(routes =>
             {
                 routes.MapHub<ChatHub>("/chat");
+                routes.MapHub<FilmHub>("/film");
             });
 
             app.UseHttpsRedirection();
