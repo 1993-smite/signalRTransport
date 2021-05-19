@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using WebAPI.Models;
 using WebAPI.Services;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace WebAPI.Controllers
 {
@@ -36,7 +37,9 @@ namespace WebAPI.Controllers
         [HttpPost]
         public ActionResult<long> Post(FilmValid film)
         {
-            return Ok(_db.Value.SaveFilm(film));
+            var res = _db.Value.SaveFilm(film);
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://localhost:1040/api/film/Send/{film.Id}");
+            return Ok(res);
         }
 
         // Delete
