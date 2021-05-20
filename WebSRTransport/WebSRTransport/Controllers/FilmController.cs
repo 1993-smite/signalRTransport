@@ -25,19 +25,21 @@ namespace WebSRTransport.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            Task.Run(async () => await _hubContext.Clients.All.SendAsync("Notify", "test"));
             return new string[] { "value1", "value2" };
         }
 
         [HttpGet("{msg}")]
-        public async void Send(string msg)
+        public ActionResult Send(string msg)
         {
-            await _hubContext.Clients.All.SendAsync("Send", msg);
+            var task = Task.Run(async () => await _hubContext.Clients.All.SendAsync("Send", msg));
+            return Ok("done");
         }
 
-        [HttpGet("{msg}")]
-        public async void Notify(string msg)
-        {
-            await _hubContext.Clients.All.SendAsync("Notify", msg);
-        }
+        //[HttpGet("{id}")]
+        //public async void Notify(int id)
+        //{
+        //    await _hubContext.Clients.All.SendAsync("Notify", id);
+        //}
     }
 }
