@@ -94,7 +94,7 @@ export default {
     watch:{
         'getActiveFilm.id': function(){
             this.film = Object.assign({},this.getActiveFilm);
-            this.hub.invoke('send', `<span>film: ${this.film.id} has been opened</span>`);
+            this.hub.invoke('notify', `<span>film: ${this.film.id} has been opened</span>`);
         }
     },
     data: function(){

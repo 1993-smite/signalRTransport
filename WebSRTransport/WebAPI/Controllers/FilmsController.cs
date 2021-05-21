@@ -30,6 +30,8 @@ namespace WebAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<Film> Get(int id)
         {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://localhost:1040/api/film/id");
+            WebResponse response = request.GetResponse();
             return Ok(_db.Value.GetFilm(id));
         }
 
@@ -38,7 +40,8 @@ namespace WebAPI.Controllers
         public ActionResult<long> Post(FilmValid film)
         {
             var res = _db.Value.SaveFilm(film);
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://localhost:1040/api/film/Send/{film.Id}");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://localhost:1040/api/film/{film.Id}-{film.Name}");
+            WebResponse response = request.GetResponse();
             return Ok(res);
         }
 

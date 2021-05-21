@@ -9,9 +9,11 @@ connection.on('Receive', data => {
     console.log("Receive",data);
 });
 connection.on("send", data => {
+    console.log("send",data);
     M.toast({html: data, classes: 'red'})
 });
 connection.on("notify", data => {
+    console.log("notify",data);
     M.toast({html: data, classes: 'yellow'})
 });
 
