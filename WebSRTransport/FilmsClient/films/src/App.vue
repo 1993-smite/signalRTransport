@@ -1,6 +1,6 @@
 
 <template>
-  <div class="container">
+  <div class="container" v-cloak>
     <div class="row">
       <div class="col s12">Фильмы</div>
       <div class="col s6">
@@ -26,7 +26,7 @@ export default {
     FilmCard
   },
   mounted(){
-    M.AutoInit()
+    M.AutoInit();
   }
 }
 </script>
@@ -39,5 +39,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+[v-cloak]{
+  display: none;
 }
 </style>

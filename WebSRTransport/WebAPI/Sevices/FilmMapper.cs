@@ -54,6 +54,7 @@ namespace WebAPI.Services
 
                 count = dbFilms.Count();
                 dbFilms = dbFilms
+                    .OrderBy(x=>x.Id)
                     .Skip((page - 1) * pageCount)
                     .Take(pageCount);
 

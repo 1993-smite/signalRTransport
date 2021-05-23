@@ -19,17 +19,19 @@ export default {
         }
     },
     actions: {
-        async fetchFilms(ctx, data){
+        async fetchFilms(ctx, data = {}){
+            data = Object.assign(data, { page: 1, pageCount: 10});
             let params = Common.objToStr(data);
             let res = await fetch(`${filmUrl}?${params}`);
             let result = await res.json();
             let films = result.item1;
             films.forEach(x=>x.Active = false);
+            ctx.commit('setFilms', films);
 
             if (films.length > 0)
                 films[0].Active = true; //!!!!!!!!
                 
-            ctx.commit('setFilms', films);
+            
             ctx.commit('setCount', result.item2);
         },
         async getFilm(ctx, id){

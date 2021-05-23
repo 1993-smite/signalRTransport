@@ -1,15 +1,20 @@
 <template>
-    <ul class="collection with-header">
-        <li class="collection-header">
-            <h4>Фильмы</h4>  
-            <div class="input-field">
-                <input placeholder="Год"
-                    id="id" 
-                    type="number"
-                    v-model="id">
-                <label for="id">Id</label>
-            </div>
-        </li>
+    <h4>Фильмы</h4>  
+    <div class="input-field">
+        <input placeholder="Id"
+            id="id" 
+            type="number"
+            v-model="id">
+        <label for="id">Id</label>
+    </div>
+    <div class="input-field">
+        <input placeholder="Год"
+            id="year" 
+            type="number"
+            v-model="year">
+        <label for="year">Год</label>
+    </div>
+    <ul class="collection">
         <li class="collection-item"
             v-for="(film, index) in getFilms" 
             :key="index"
@@ -35,12 +40,16 @@ export default {
   },
   data: ()=>{
     return {
-        id: 0
+        id: 0,
+        year: 0
     }
   },
   watch:{
       id: async function(){
           await this.getFilm(this.id);
+      },
+      year: async function(){
+          await this.fetchFilms({ year: this.year });
       }
   },
   methods: {

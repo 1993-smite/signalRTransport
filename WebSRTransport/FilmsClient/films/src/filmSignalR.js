@@ -20,6 +20,11 @@ connection.on("notify", data => {
 connection.start()
     .then(() => connection.invoke("send", "Hello"));
 
+window.addEventListener("unload", function() {
+    console.log("bye");
+    connection.stop();
+});
+
 export default {
     hub: connection
 }

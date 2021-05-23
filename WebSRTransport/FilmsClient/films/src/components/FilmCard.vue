@@ -8,6 +8,7 @@
             </div>
             <div class="row">
                 <div class="input-field">
+                    <i class="material-icons prefix">text_format</i>
                     <input placeholder="Название"
                         id="first_name" 
                         type="text"
@@ -17,7 +18,11 @@
             </div>
             <div class="row">
                 <div class="input-field">
-                    <select>
+                    <i class="material-icons prefix">text_format</i>
+                    <select id="type" 
+                        v-model="film.type.id"
+                        v-bind:defaultValue="film.type.id"
+                        >
                         <option value="" disabled selected>Выберите тип</option>
                         <option v-for="(type, index) in getFilmTypes"
                             v-bind:key="index"
@@ -30,17 +35,21 @@
             </div>
             <div class="row">
                 <div class="input-field">
-                    <input placeholder="Страна"
-                        id="country" 
-                        type="text"
-                        v-model="film.country">
+                    <i class="material-icons prefix">call_made</i>
+                    <input type="text" 
+                        placeholder="Страна"
+                        id="country"
+                        class="autocomplete" 
+                        autocomplete="off"
+                        >
                     <label for="country">Страна</label>
                 </div>
             </div>
             <div class="row">
                 <div class="input-field">
+                    <i class="material-icons prefix">textsms</i>
                     <input placeholder="Год"
-                        id="country" 
+                        id="year" 
                         type="number"
                         v-model="film.year">
                     <label for="country">Год</label>
@@ -48,8 +57,21 @@
             </div>
             <div class="row">
                 <div class="input-field">
-                <textarea id="description" class="materialize-textarea"></textarea>
-                <label for="description">Описание</label>
+                    <i class="material-icons prefix">textsms</i>
+                    <input placeholder="Бюджет"
+                        id="budget" 
+                        type="number"
+                        v-model="film.budget">
+                    <label for="budget">Бюджет</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field">
+                    <i class="material-icons prefix">description</i>
+                    <textarea id="description" 
+                        class="materialize-textarea"
+                        v-model="film.description"></textarea>
+                    <label for="description">Описание</label>
                 </div>
             </div>
             <div class="row">
@@ -71,6 +93,22 @@ export default {
     name: 'FilmCard',
     computed: {
         ...mapGetters(['getFilmTypes','getActiveFilm']),
+        Countries(){
+            let countries = [
+                "США",
+                "Россия",
+                "Швеция",
+                "Великобритания",
+                "Нидерланды",
+                "Испания",
+                "Италия"
+            ];
+            let autocomplete = {};
+            for(let index = 0; index < countries.length; index++){
+                autocomplete[countries[index]] = `${index + 1}`;
+            }
+            return autocomplete;
+        },
         getDollarsFormatted: function(){
             return (Number.parseFloat(this.getActiveFilm.budget))
                         .toFixed(2)
@@ -94,12 +132,35 @@ export default {
     watch:{
         'getActiveFilm.id': function(){
             this.film = Object.assign({},this.getActiveFilm);
-            this.hub.invoke('notify', `<span>film: ${this.film.id} has been opened</span>`);
+            
+            let context = this;
+            setTimeout(()=>{
+                var elem = document.querySelector('#type');
+                M.FormSelect.init(elem);
+                
+                M.updateTextFields();
+                M.textareaAutoResize($('#description'));
+                
+                elem = document.querySelector('#country');
+                M.Autocomplete.init(elem, {
+                    data: context.Countries
+                });
+
+
+                //instances.open();
+                //M.AutoInit()
+            }, 200);
+            
+            //this.hub.invoke('notify', `<span>film: ${this.film.id} has been opened</span>`);
         }
     },
     data: function(){
         return {
-            film: {},
+            film: {
+                type: {
+                    id: 0
+                }
+            },
             hub: connection.hub
         }
     },
@@ -108,7 +169,7 @@ export default {
         saveFilmCard(){
             //this.$store.dispatch('saveFilm', this.film);
             this.saveFilm(this.film);
-            this.hub.invoke('send', `film: ${this.film.id} has beeen saved`);
+            //this.hub.invoke('send', `film: ${this.film.id} has beeen saved`);
         },
         clearFilm(){
             //this.$store.dispatch('newFilm');
@@ -126,8 +187,6 @@ export default {
     async mounted(){
         //this.$store.dispatch('fetchFilmTypes');
         await this.fetchFilmTypes();
-        M.updateTextFields();
-        M.textareaAutoResize($('#description'));
         console.log(connection);
     }
 }
