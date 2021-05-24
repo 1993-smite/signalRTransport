@@ -2,6 +2,12 @@ import Common from '../../libs/common'
 const axios = require('axios')
 let filmUrl = 'http://localhost:9999/api/Films';
 
+async function getFilm(id){
+    let res = await fetch(`${filmUrl}/${id}`);
+    let film = await res.json();
+    return film;
+}
+
 export default {
     state: {
         films: [],
@@ -35,13 +41,19 @@ export default {
             ctx.commit('setCount', result.item2);
         },
         async getFilm(ctx, id){
-            let res = await fetch(`${filmUrl}/${id}`);
-            let result = await res.json();
-            let films = [result];
+            let film = getFilm(id);
+            let films = [film];
+            
             ctx.commit('setFilms', films);
             ctx.commit('setActive', films[0].id);
         },
-        setActive(ctx, id){
+        async setFilm(ctx, id){
+            let film = await getFilm(id);
+            
+            ctx.commit('setFilm', film);
+        },
+        async setActive(ctx, id){
+            await ctx.dispatch('setFilm', id);
             ctx.commit('setActive', id);
         },
         async saveFilm(ctx, film){
@@ -64,6 +76,11 @@ export default {
     mutations: {
         setFilms(state, films){
             state.films = films;
+        },
+        setFilm(state, film){
+            let stFilm = state.films.find(x=>x.id == film.id);
+            stFilm = Object.assign(stFilm, film);
+            console.log(stFilm);
         },
         setCount(state, count){
             state.count = count;
