@@ -46,6 +46,7 @@ namespace WebAPI.Services
                 Country = from.Country,
                 Budget = from.Budget,
                 Timing = from.Timing,
+                Status = (int)from.State
             };
             return to;
         }
@@ -62,6 +63,7 @@ namespace WebAPI.Services
                 Country = from.Country,
                 Budget = from.Budget.HasValue ? from.Budget.Value : 0,
                 Timing = from.Timing.HasValue ? from.Timing.Value : 0,
+                State = (FilmState)from.Status
             };
             return to;
         }

@@ -4,6 +4,14 @@
             <div class="row">
                 <div class="input-field">
                     <h4>{{film.name}}</h4>
+                    <div class="switch">
+                        <label>
+                        Неактивный
+                        <input type="checkbox" v-model="film.activeState">
+                        <span class="lever"></span>
+                        Активный
+                        </label>
+                    </div>
                 </div>
             </div>
             <div class="row">
@@ -41,6 +49,7 @@
                         id="country"
                         class="autocomplete" 
                         autocomplete="off"
+                        v-bind:value="film.country"
                         >
                     <label for="country">Страна</label>
                 </div>
@@ -89,6 +98,8 @@ import $ from 'jquery'
 import { mapGetters, mapActions } from 'vuex';
 import connection from "./../filmSignalR.js"
 
+const activeState = 0;
+
 export default {
     name: 'FilmCard',
     computed: {
@@ -101,11 +112,23 @@ export default {
                 "Великобритания",
                 "Нидерланды",
                 "Испания",
-                "Италия"
+                "Италия",
+                "Канада",
+                "Эстония",
+                "Бельгия",
+                "Китай",
+                "Северная корея",
+                "Южная корея",
+                "Греция",
+                "Бразилия",
+                "Аргентина",
+                "Уругвай",
+                "Мексика",
+                "Болгария"
             ];
             let autocomplete = {};
             for(let index = 0; index < countries.length; index++){
-                autocomplete[countries[index]] = `${index + 1}`;
+                autocomplete[countries[index]] = countries[index];
             }
             return autocomplete;
         },
@@ -133,6 +156,8 @@ export default {
         'getActiveFilm.id': function(){
             this.film = Object.assign({},this.getActiveFilm);
             
+            this.film.activeState = this.film.state === activeState;
+
             let context = this;
             setTimeout(()=>{
                 var elem = document.querySelector('#type');
@@ -143,7 +168,10 @@ export default {
                 
                 elem = document.querySelector('#country');
                 M.Autocomplete.init(elem, {
-                    data: context.Countries
+                    data: context.Countries,
+                    onAutocomplete: function(value){
+                        context.film.country = value
+                    }
                 });
 
 
@@ -152,6 +180,12 @@ export default {
             }, 200);
             
             //this.hub.invoke('notify', `<span>film: ${this.film.id} has been opened</span>`);
+        },
+        'film.activeState': function(value){
+            if (value)
+                this.film.state = activeState;
+            else
+                this.film.state = 9;
         }
     },
     data: function(){

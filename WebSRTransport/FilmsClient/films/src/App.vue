@@ -1,8 +1,16 @@
 
 <template>
-  <div class="container" v-cloak>
+  <div class="container"
+    v-cloak>
+    <nav>
+      <div class="nav-wrapper">
+        <a href="#!" class="brand-logo right">Logo</a>
+        <ul class="left hide-on-med-and-down">
+          <li class="active"><a href="#">Фильмы</a></li>
+        </ul>
+      </div>
+    </nav>
     <div class="row">
-      <div class="col s12">Фильмы</div>
       <div class="col s6">
         <FilsmList/>
       </div>
@@ -38,7 +46,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 [v-cloak]{
   display: none;

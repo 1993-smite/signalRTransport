@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Models
 {
+    public enum FilmState
+    {
+        Active = 0,
+        UnActive = 9
+    }
+
     /// <summary>
     /// film
     /// </summary>
@@ -19,6 +25,7 @@ namespace WebAPI.Models
         public string Country { get; set; }
         public long Timing { get; set; }
         public long Budget { get; set; }
+        public FilmState State { get; set; }
     }
 
     public class FilmValid: Film

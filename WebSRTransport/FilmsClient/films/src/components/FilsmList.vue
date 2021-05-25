@@ -21,10 +21,13 @@
             v-on:click="setActive(film.id)"
             v-bind:class="{active: film.Active}">
             <div>
-                {{film.name}}
-                <a href="#!" class="secondary-content">
-                    <i class="material-icons">send</i>
-                </a>
+                <b>{{film.name}}</b>({{film.year}})
+                <span class="badge">
+                    {{film.type.name}}
+                </span>
+                <!--span class="new badge blue">
+                    {{film.year}}
+                </span-->
             </div>
         </li>
     </ul>
@@ -36,7 +39,7 @@ import { mapGetters, mapActions } from 'vuex';
 export default {
   name: 'FilsmList',
   computed: {
-    ...mapGetters(['getFilms'])
+    ...mapGetters(['getFilms','getActiveFilm'])
   },
   data: ()=>{
     return {
@@ -73,5 +76,6 @@ export default {
     }
     .collection-item{
         cursor: pointer;
+        text-align: left;
     }
 </style>
