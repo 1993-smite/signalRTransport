@@ -96,7 +96,7 @@
 import M from 'materialize-css'
 import $ from 'jquery'
 import { mapGetters, mapActions } from 'vuex';
-import connection from "./../filmSignalR.js"
+import connection from "../../filmSignalR.js"
 
 const activeState = 0;
 

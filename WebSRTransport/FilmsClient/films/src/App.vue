@@ -6,32 +6,25 @@
       <div class="nav-wrapper">
         <a href="#!" class="brand-logo right">Logo</a>
         <ul class="left hide-on-med-and-down">
-          <li class="active"><a href="#">Фильмы</a></li>
+          <li class="active">
+            <router-link to="/">Фильмы</router-link>
+          </li>
+          <li>
+            <router-link to="/tasks">Таски</router-link>
+          </li>
         </ul>
       </div>
     </nav>
-    <div class="row">
-      <div class="col s6">
-        <FilsmList/>
-      </div>
-      <div class="col s6">
-        <FilmCard class="b-color"
-                        />
-      </div>
-    </div>
+    <router-view />
   </div>
 </template>
 
 <script>
 import M from 'materialize-css'
-import FilsmList from './components/FilsmList'
-import FilmCard from './components/FilmCard'
 
 export default {
   name: 'App',
   components: {
-    FilsmList,
-    FilmCard
   },
   mounted(){
     M.AutoInit();
