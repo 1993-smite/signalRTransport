@@ -1,9 +1,7 @@
 ﻿using WebAPI.Models;
-using PostgresApp;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using DB.DBModels;
 
 namespace WebAPI.Services
 {
@@ -28,11 +26,6 @@ namespace WebAPI.Services
                 _types.Add(type);
             return this;
         }
-
-        //public IEnumerable<Film> toViews()
-        //{
-
-        //}
 
         public DBFilm toDB(Film from)
         {
