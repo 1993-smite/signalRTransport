@@ -1,19 +1,46 @@
 <template>
-    <div class="row">
+    <div class="row"
+        v-on:keyup.enter="save()"
+        v-on:keyup.esc="newTask()">
         <div class="col s12">
             <div class="card blue-grey darken-1">
                 <div class="card-content white-text">
-                    <span class="card-title">{{task.name}}</span>
+                    <span class="card-title">
+                        {{task.name}}
+                        <div class="switch">
+                            <label>
+                                Off
+                            <input type="checkbox" 
+                                v-model="state">
+                            <span class="lever"></span>
+                                On
+                            </label>
+                        </div>
+                    </span>
                     <div class="row">
                         <div class="input-field col s12">
-                            <input id="name" type="text" v-model="task.name">
+                            <input id="name" 
+                                type="text" 
+                                v-model="task.name"
+                                autocomplete="off">
                             <label for="name">Название</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input id="date" 
+                                type="text" 
+                                class="datepicker" 
+                                :value="getDate">
+                            <label for="date">Дата</label>
                         </div>
                     </div>
                 </div>
                 <div class="card-action">
-                    <a href="#">This is a link</a>
-                    <a href="#">This is a link</a>
+                    <a href="#"
+                        v-on:click="newTask()">Новый таск</a>
+                    <a href="#"
+                        v-on:click="save()">Сохранить</a>
                 </div>
             </div>
         </div>
@@ -23,6 +50,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import M from 'materialize-css'
+import moment from 'moment';
 
 export default {
     name: 'TaskCard',
@@ -33,20 +61,74 @@ export default {
         return {
             task: {
                 Active: false
-            }
+            },
+            state: false
         }
     },
     watch: {
         'getActiveTask.id': function(){
-            this.task = Object.assign({},this.getActiveTask);
-            M.updateTextFields();
+            let context = this;
+            context.task = Object.assign({},context.getActiveTask);
+            context.state = context.task.status == 1;
+            this.readyCard();
+        },
+        state: function(value){
+            this.task.status = value ? 1 : 9;
         }
     },
     computed: {
         ...mapGetters(['getActiveTask']),
+        getDate: function (){
+            const dt = this.task.date;
+            return moment(dt).format('LL');
+        }
     },
     methods: {
         ...mapActions(["saveTask","newTask","setActiveTask"]),
+        save: async function(){
+            await this.saveTask(this.task);
+        },
+        newTask: function(){
+            this.task = Object.assign(this.task,{
+                id: 0,
+                name: '',
+                status: 1,
+                date: new Date(),
+            });
+            this.state = true;
+            this.readyCard();
+        },
+        readyCard: function(){
+            let context = this;
+
+            M.updateTextFields();
+
+            var elem = document.querySelectorAll('#date');
+            let dtMax = new Date();
+            dtMax.setFullYear(dtMax.getFullYear()+2);
+
+            M.Datepicker.init(elem, {
+                defaultDate: context.task.date,
+                minDate: new Date(),
+                maxDate: dtMax,
+                onSelect: function(date){
+                    context.task.date = new Date(date.setHours(5));
+                    //this.task
+                }
+            });
+        }
+    },
+    mounted(){
+        document.getElementById('name').focus();
     }
 }
 </script>
+
+<style>
+    .datepicker-calendar-container {
+        color: black !important;
+    }
+    .card .card-content input{
+        color: white !important;
+    }
+</style>
