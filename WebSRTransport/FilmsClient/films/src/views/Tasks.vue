@@ -1,5 +1,7 @@
 <template>
-    <div class="row">
+    <div class="row"
+      v-on:keyup.up="up()"
+      v-on:keyup.down="down()">
       <div class="col s6">
         <TaskList/>
       </div>
@@ -14,11 +16,44 @@
 import TaskList from './../components/tasks/TaskList'
 import TaskCard from './../components/tasks/TaskCard'
 
+import { mapGetters, mapActions } from 'vuex';
+import M from 'materialize-css'
+
 export default {
   name: 'Tasks',
   components: {
     TaskList,
     TaskCard
+  },
+  computed: {
+    ...mapGetters(['getTasks','getActiveTask'])
+  },
+  methods: {
+    ...mapActions(["fetchTasks","setActiveTask"]),
+    getActiveTaskIndex: function(){
+      let tasks = this.getTasks;
+      return tasks.findIndex(x=>x.id == this.getActiveTask.id);
+    },
+    up: function(){
+      let tasks = this.getTasks;
+      const taskIndex = this.getActiveTaskIndex();
+
+      if (taskIndex > 0) 
+        this.setActiveTask(tasks[taskIndex - 1].id);
+    },
+    down: function(){
+      let tasks = this.getTasks;
+      const taskIndex = this.getActiveTaskIndex();
+
+      if (taskIndex < this.getTasks.length - 1) 
+        this.setActiveTask(tasks[taskIndex + 1].id);
+    }
+  },
+  mounted(){
+    //let context = this;
+    this.fetchTasks().then(() => {
+      M.updateTextFields();
+    });
   }
 }
 </script>

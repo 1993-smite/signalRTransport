@@ -29,6 +29,6 @@ namespace WebAPI.Models
         public string NameValid => Name;
 
         [RegularExpression("(True|true)", ErrorMessage = "'Дата' должна быть будущей")]
-        public bool DateValid => isNew && Date > DateTime.Now;
+        public bool DateValid => !isNew || Date > DateTime.Now;
     }
 }

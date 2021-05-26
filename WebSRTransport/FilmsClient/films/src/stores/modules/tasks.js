@@ -1,4 +1,5 @@
 let taskUrl = 'http://localhost:9999/api/WebTasks';
+import M from 'materialize-css'
 const axios = require('axios')
 
 async function getTask(id){
@@ -20,14 +21,15 @@ export default {
         }
     },
     actions: {
-        async fetchTasks(ctx){
+        async fetchTasks(ctx, id = 0){
             let res = await fetch(taskUrl);
             let tasks = await res.json();
             tasks.forEach(x=>{
                 x.Active = false;
+                x.date = new Date(x.date)
             });
             ctx.commit('setTasks', tasks);
-            ctx.commit('setActive', tasks[0].id);
+            ctx.commit('setActive', id < 1 ? tasks[0].id : id);
         },
         async setActiveTask(ctx, id){
             await ctx.dispatch('setTask', id);
@@ -45,12 +47,15 @@ export default {
             ctx.commit('setTasks', tasks);
             ctx.commit('setActive', tasks[0].id);
         },
-        async saveTask(ctx, task){
-            let response = await axios
-            .post(taskUrl, task );
-            let taskId = response.data;
-            task.id = taskId;
-            ctx.commit('saveTask', task);
+        saveTask(ctx, task){
+            axios.post(taskUrl, task ).then((response) => {
+                let taskId = response.data;
+                task.id = taskId;
+                ctx.dispatch('fetchTasks', task.id);
+            }, (err)=>{
+                console.error('test error', err);
+                M.toast({html: `<span style='backgound-color: red'>${err.message}</span>`});
+            })
         },
     },
     mutations: {
