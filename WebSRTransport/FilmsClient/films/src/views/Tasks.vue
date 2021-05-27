@@ -51,8 +51,18 @@ export default {
   },
   mounted(){
     //let context = this;
-    this.fetchTasks().then(() => {
+    this.fetchTasks().then((tasks) => {
       M.updateTextFields();
+
+      let tasksToday = tasks.filter(x=>x.IsToday);
+      let index = 1;
+      for(let task of tasksToday){
+        new Notification(`Task`, {
+            tag : `ache-mail-${index++}`,
+            body : task.name,
+        });
+        //console.log(mailNotification);
+      }
     });
   }
 }

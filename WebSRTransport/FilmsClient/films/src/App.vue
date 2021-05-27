@@ -4,7 +4,9 @@
     v-cloak>
     <nav>
       <div class="nav-wrapper">
-        <a href="#!" class="brand-logo right">Logo</a>
+        <a href="#!" class="brand-logo right">
+          <img src="logo60.png"/>
+        </a>
         <ul class="left hide-on-med-and-down">
           <li 
             v-for="(rout, index) in routes"
@@ -12,12 +14,6 @@
             :class="{active: getPath === rout.path}">
             <router-link :to="rout.path">{{rout.name}}</router-link>
           </li>
-          <!-- <li>
-            <router-link to="/">Фильмы</router-link>
-          </li>
-          <li>
-            <router-link to="/tasks">Таски</router-link>
-          </li> -->
         </ul>
       </div>
     </nav>

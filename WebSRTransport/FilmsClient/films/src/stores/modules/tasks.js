@@ -1,11 +1,18 @@
 let taskUrl = 'http://localhost:9999/api/WebTasks';
 import M from 'materialize-css'
 const axios = require('axios')
+import moment from 'moment';
 
 async function getTask(id){
     let res = await fetch(`${taskUrl}/${id}`);
     let task = await res.json();
     return task;
+}
+
+function isToday(task){
+    const today = moment();
+    const dt = moment(task.date);
+    return today.format('LL') === dt.format('LL');
 }
 
 export default {
@@ -26,10 +33,12 @@ export default {
             let tasks = await res.json();
             tasks.forEach(x=>{
                 x.Active = false;
-                x.date = new Date(x.date)
+                x.date = new Date(x.date),
+                x.IsToday = isToday(x)
             });
             ctx.commit('setTasks', tasks);
             ctx.commit('setActive', id < 1 ? tasks[0].id : id);
+            return tasks;
         },
         async setActiveTask(ctx, id){
             await ctx.dispatch('setTask', id);

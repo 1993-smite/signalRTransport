@@ -50,7 +50,7 @@
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import M from 'materialize-css'
-import moment from 'moment';
+import MomentFormat from './../../libs/moment-format'
 
 export default {
     name: 'TaskCard',
@@ -79,8 +79,7 @@ export default {
     computed: {
         ...mapGetters(['getActiveTask']),
         getDate: function (){
-            const dt = this.task.date;
-            return moment(dt).format('LL');
+            return MomentFormat.getDateFormat(this.task.date);
         }
     },
     methods: {
@@ -111,6 +110,14 @@ export default {
                 defaultDate: context.task.date,
                 minDate: new Date(),
                 maxDate: dtMax,
+                format: 'dd mmmm',
+                i18n: {
+                    months: ["Январь", "Февраль", "Март", "Апрель", "Май", "Июнь", "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"],
+                    monthsShort: ["Янв", "Фев", "Мар", "Апр", "Май", "Июнь", "Июль", "Авг", "Сен", "Окт", "Нбр", "Дек"],
+                    weekdays: ["Воскресенье","Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"],
+                    weekdaysShort: ["Вс","Пон", "Вт", "Ср", "Чет", "Пят", "Суб"],
+                    weekdaysAbbrev: ["Вс","Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
+                },
                 onSelect: function(date){
                     context.task.date = new Date(date.setHours(5));
                     //this.task
@@ -125,10 +132,14 @@ export default {
 </script>
 
 <style>
+    
     .datepicker-calendar-container {
         color: black !important;
     }
-    .card .card-content input{
+    .selects-container input {
+        color: black !important;
+    }
+    .card .card-content input:not(:read-only){
         color: white !important;
     }
 </style>
