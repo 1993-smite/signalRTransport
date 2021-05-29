@@ -56,6 +56,10 @@ export default {
             ctx.commit('setTasks', tasks);
             ctx.commit('setActive', tasks[0].id);
         },
+        removeTask(ctx, task){
+            task.status = 9;
+            ctx.dispatch('saveTask', task);
+        },
         saveTask(ctx, task){
             axios.post(taskUrl, task ).then((response) => {
                 let taskId = response.data;

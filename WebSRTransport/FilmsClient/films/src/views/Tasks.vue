@@ -29,7 +29,7 @@ export default {
     ...mapGetters(['getTasks','getActiveTask'])
   },
   methods: {
-    ...mapActions(["fetchTasks","setActiveTask"]),
+    ...mapActions(["fetchTasks","setActiveTask","removeTask"]),
     getActiveTaskIndex: function(){
       let tasks = this.getTasks;
       return tasks.findIndex(x=>x.id == this.getActiveTask.id);
@@ -50,19 +50,26 @@ export default {
     }
   },
   mounted(){
-    //let context = this;
+    let context = this;
     this.fetchTasks().then((tasks) => {
       M.updateTextFields();
 
       let tasksToday = tasks.filter(x=>x.IsToday);
-      let index = 1;
+      //let index = 1;
+      var notifications = [];
       for(let task of tasksToday){
-        new Notification(`Task`, {
-            tag : `ache-mail-${index++}`,
-            body : task.name,
-        });
-        //console.log(mailNotification);
+        notifications.push(new Notification(`Task`, {
+            tag : task.id,
+            body : task.name
+        }));
+        notifications[notifications.length - 1].onclick = function(event){
+          const taskId = +event.target.tag;
+          let task = context.getTasks.find(x=>x.id == taskId);
+          context.removeTask(task);
+          console.log(arguments);
+        };
       }
+      console.log(notifications);
     });
   }
 }
