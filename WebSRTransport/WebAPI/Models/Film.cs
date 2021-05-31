@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Models
 {
+    /// <summary>
+    /// state of film task
+    /// </summary>
     public enum FilmState
     {
         Active = 0,
@@ -13,7 +16,7 @@ namespace WebAPI.Models
     }
 
     /// <summary>
-    /// film
+    /// film classs
     /// </summary>
     public class Film
     {
@@ -28,6 +31,9 @@ namespace WebAPI.Models
         public FilmState State { get; set; }
     }
 
+    /// <summary>
+    /// validation of films
+    /// </summary>
     public class FilmValid: Film
     {
         public bool isNew => Id < 1;

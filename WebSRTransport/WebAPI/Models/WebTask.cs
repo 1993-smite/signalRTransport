@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Models
 {
+    /// <summary>
+    /// class for web task
+    /// </summary>
     public class WebTask
     {
         public int Id { get; set; }
@@ -14,6 +17,9 @@ namespace WebAPI.Models
         public WebTaskStatus Status { get; set; }
     }
 
+    /// <summary>
+    /// web task status
+    /// </summary>
     public enum WebTaskStatus
     {
         Active = 1,
@@ -21,6 +27,9 @@ namespace WebAPI.Models
         Cansel = 9
     }
 
+    /// <summary>
+    /// validation for web task
+    /// </summary>
     public class WebTaskValid: WebTask
     {
         public bool isNew => Id < 1;
