@@ -96,12 +96,14 @@
 import M from 'materialize-css'
 import $ from 'jquery'
 import { mapGetters, mapActions } from 'vuex';
-import connection from "../../filmSignalR.js"
 
 const activeState = 0;
 
 export default {
     name: 'FilmCard',
+    props: {
+        hub: Object
+    },
     computed: {
         ...mapGetters(['getFilmTypes','getActiveFilm']),
         Countries(){
@@ -194,8 +196,7 @@ export default {
                 type: {
                     id: 0
                 }
-            },
-            hub: connection.hub
+            }
         }
     },
     methods: {
@@ -221,7 +222,7 @@ export default {
     async mounted(){
         //this.$store.dispatch('fetchFilmTypes');
         await this.fetchFilmTypes();
-        console.log(connection);
+        //console.log(connection);
     }
 }
 </script>

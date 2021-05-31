@@ -2,10 +2,10 @@
     <div class="row"
       v-on:keyup.up="up()"
       v-on:keyup.down="down()">
-      <div class="col s6">
+      <div class="col s6 left">
         <TaskList/>
       </div>
-      <div class="col s6">
+      <div class="col s6 right">
         <TaskCard class="b-color"
                         />
       </div>
@@ -63,14 +63,22 @@ export default {
             body : task.name
         }));
         notifications[notifications.length - 1].onclick = function(event){
+          event.target.close();
           const taskId = +event.target.tag;
           let task = context.getTasks.find(x=>x.id == taskId);
           context.removeTask(task);
-          console.log(arguments);
         };
       }
-      console.log(notifications);
     });
   }
 }
 </script>
+
+<style scoped>
+  .col.left{
+    padding-left: 0px;
+  }
+  .col.right{
+    padding-right: 0px;
+  }
+</style>

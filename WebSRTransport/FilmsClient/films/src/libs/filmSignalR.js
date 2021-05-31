@@ -17,9 +17,6 @@ connection.on("notify", data => {
     M.toast({html: data, classes: 'yellow'})
 });
 
-connection.start()
-    .then(() => connection.invoke("send", "Hello"));
-
 window.addEventListener("unload", function() {
     console.log("bye");
     connection.stop();
