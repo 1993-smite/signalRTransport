@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DB.DBModels;
+using DB.Repositories;
 
 namespace WebAPI.Services
 {
@@ -13,6 +14,7 @@ namespace WebAPI.Services
     {
         private FilmConverter _converter;
         private FilmTypeConverter _typesConverter;
+        private FilmRepository _repository;
 
         public FilmMapper()
         {
@@ -34,6 +36,8 @@ namespace WebAPI.Services
             using (ApplicationContext db = new ApplicationContext())
             {
                 IQueryable<DBFilm> dbFilms = db.Films;
+
+                dbFilms = dbFilms.Where(x => x.Status == 0);
 
                 if (year > 0)
                     dbFilms = dbFilms
@@ -108,32 +112,9 @@ namespace WebAPI.Services
 
         public long SaveFilm(Film film)
         {
-            long Id = film.Id;
+            var dbFilm = _converter.toDB(film);
 
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                if (film.Id < 1)
-                {
-                    Id = db.Films.OrderBy(x=>x.Id).LastOrDefault()?.Id ?? 0;
-                    ++Id;
-                    var dbFilm = _converter.toDB(film);
-                    dbFilm.Id = Id;
-                    db.Films.Add(dbFilm);
-                }
-                else
-                {
-                    var exist = db.Films.FirstOrDefault(x => x.Id == Id);
-                    var upFilm = _converter.toDB(film);
-                    db.Entry(exist)
-                      .CurrentValues
-                      .SetValues(upFilm);
-                }
-
-                db.SaveChanges();
-
-            }
-
-            return Id;
+            return _repository.Save(dbFilm);
         }
 
         public IEnumerable<FilmType> GetFilmTypes()

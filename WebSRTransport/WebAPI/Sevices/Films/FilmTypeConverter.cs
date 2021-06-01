@@ -24,8 +24,8 @@ namespace WebAPI.Services
         {
             var to = new FilmType()
             {
-                Id = (int)from.Id,
-                Name = from.Name,
+                Id = from?.Id ?? 0,
+                Name = from?.Name ?? "",
             };
             return to;
         }
