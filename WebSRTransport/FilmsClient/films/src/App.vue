@@ -42,7 +42,8 @@ export default {
     }
   },
   mounted(){
-    M.AutoInit();
+    M
+    //M.AutoInit();
   }
 }
 </script>

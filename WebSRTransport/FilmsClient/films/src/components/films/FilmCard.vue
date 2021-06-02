@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="card blue-grey darken-1">
         <div class="card-content">
             <div class="row">
                 <div class="input-field">
@@ -20,6 +20,7 @@
                     <input placeholder="Название"
                         id="first_name" 
                         type="text"
+                        autocomplete="off"
                         v-model="film.name">
                     <label for="first_name">Фильм</label>
                 </div>
@@ -175,13 +176,7 @@ export default {
                         context.film.country = value
                     }
                 });
-
-
-                //instances.open();
-                //M.AutoInit()
             }, 200);
-            
-            //this.hub.invoke('notify', `<span>film: ${this.film.id} has been opened</span>`);
         },
         'film.activeState': function(value){
             if (value)
@@ -202,34 +197,32 @@ export default {
     methods: {
         ...mapActions(["saveFilm","newFilm","setActive","removeFilm","fetchFilmTypes"]),
         saveFilmCard(){
-            //this.$store.dispatch('saveFilm', this.film);
             this.saveFilm(this.film);
-            //this.hub.invoke('send', `film: ${this.film.id} has beeen saved`);
         },
         clearFilm(){
-            //this.$store.dispatch('newFilm');
             this.newFilm();
-            //this.$store.dispatch('setActive', -1);
             this.setActive(-1);
-            //this.$refs.default.focus();
         },
         removeFilm(){
-            //this.$store.dispatch('removeFilm', this.film);
             this.removeFilm(this.film);
             this.clearFilm();
         },
     },
     async mounted(){
-        //this.$store.dispatch('fetchFilmTypes');
         await this.fetchFilmTypes();
-        //console.log(connection);
     }
 }
 </script>
 
-<style scoped>
+<style>
     .card-header {
         text-align: center;
+    }
+    .card {
+        color: white;
+    }
+    .card .select-dropdown {
+        color: white;
     }
     button.btn{
         margin: 0px 4px;
