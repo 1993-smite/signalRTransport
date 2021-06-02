@@ -4,7 +4,6 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
-using System.Net.Http;
 
 namespace LoadFilms
 {
@@ -47,8 +46,6 @@ namespace LoadFilms
                     rep.Save(f);
 
                 }
-
-                //var f = new Film(res);
             }
 
             Console.ReadLine();
@@ -57,9 +54,6 @@ namespace LoadFilms
         static string Get(string URI)
         {
             WebClient client = new WebClient();
-
-            // Add a user agent header in case the 
-            // requested URI contains a query.
 
             client.Headers.Add("X-API-KEY", "61b9e458-e22b-4fcb-b7d9-4c1bce7fe041");
 

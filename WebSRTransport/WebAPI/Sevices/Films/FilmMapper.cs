@@ -1,10 +1,8 @@
 ﻿using WebAPI.Models;
-using Microsoft.EntityFrameworkCore;
 using PostgresApp;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using DB.DBModels;
 using DB.Repositories;
 
