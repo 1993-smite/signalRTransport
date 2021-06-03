@@ -28,12 +28,8 @@ namespace WebAPITest.Services
             };
         }
 
-        [Test]
-        public void toDBTest([Range(0, 10, 2)] int index)
+        private void checkFilm(Film domain, DBFilm db)
         {
-            var domain = getFilm(index);
-            var db = _converter.Value.toDB(domain);
-
             Assert.AreEqual(domain.Id, db.Id);
             Assert.AreEqual(domain.Name, db.Name);
             Assert.AreEqual(domain.Description, db.Descriptions);
@@ -45,20 +41,22 @@ namespace WebAPITest.Services
         }
 
         [Test]
+        public void toDBTest([Range(0, 10, 2)] int index)
+        {
+            var domain = getFilm(index);
+            var db = _converter.Value.toDB(domain);
+
+            checkFilm(domain, db);
+        }
+
+        [Test]
         public void toViewTest([Range(0, 10, 2)] int index)
         {
             var dmn = getFilm(index);
             var db = _converter.Value.toDB(dmn);
             var domain = _converter.Value.toView(db);
 
-            Assert.AreEqual(domain.Id, db.Id);
-            Assert.AreEqual(domain.Name, db.Name);
-            Assert.AreEqual(domain.Description, db.Descriptions);
-            Assert.AreEqual(domain.Country, db.Country);
-            Assert.AreEqual((int)domain.State, db.Status);
-            Assert.AreEqual(domain.Type.Id, db.TypeId);
-            Assert.AreEqual(domain.Timing, db.Timing);
-            Assert.AreEqual(domain.Budget, db.Budget);
+            checkFilm(domain, db);
         }
     }
 }
