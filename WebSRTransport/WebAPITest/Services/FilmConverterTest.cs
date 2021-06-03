@@ -29,9 +29,7 @@ namespace WebAPITest.Services
         }
 
         [Test]
-        [TestCase(10)]
-        [TestCase(1)]
-        public void toDBTest(int index)
+        public void toDBTest([Range(0, 10, 2)] int index)
         {
             var domain = getFilm(index);
             var db = _converter.Value.toDB(domain);
