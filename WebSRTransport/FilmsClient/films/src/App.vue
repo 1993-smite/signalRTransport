@@ -30,6 +30,14 @@ export default {
   name: 'App',
   components: {
   },
+  watch: {
+      $route: {
+          immediate: true,
+          handler(to) {
+              document.title = to.meta.title || 'Дом';
+          }
+      },
+  },
   computed: {
     getPath: function(){
       return this.router.path;

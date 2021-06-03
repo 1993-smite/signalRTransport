@@ -14,7 +14,7 @@
             v-model="year">
         <label for="year">Год</label>
     </div>
-    <ul class="collection">
+    <ul class="collection" v-cloak>
         <li class="collection-item"
             v-for="(film, index) in getFilms" 
             :key="index"

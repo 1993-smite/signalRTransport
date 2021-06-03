@@ -1,5 +1,5 @@
 <template>
-    <div class="row">
+    <div class="row" v-cloak>
       <div class="col s6">
         <FilsmList/>
       </div>
