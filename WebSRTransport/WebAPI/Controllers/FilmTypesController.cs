@@ -18,7 +18,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Film>> Get()
         {
-            return Ok(_db.Value.GetFilmTypes());
+            return Ok(_db.Value.Get());
         }
     }
 }
