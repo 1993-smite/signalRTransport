@@ -12,7 +12,7 @@ namespace WebAPI.Controllers
     [ApiController]
     public class FilmTypesController : ControllerBase
     {
-        private Lazy<FilmMapper> _db = new Lazy<FilmMapper>(() => new FilmMapper());
+        private Lazy<FilmTypeMapper> _db = new Lazy<FilmTypeMapper>(() => new FilmTypeMapper());
 
         // GET api/values
         [HttpGet]

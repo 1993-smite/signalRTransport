@@ -13,13 +13,25 @@ namespace WebAPI.Services
         private FilmConverter _converter;
         private FilmTypeConverter _typesConverter;
         private FilmRepository _repository;
+        private FilmTypeMapper _filmTypeMapper;
 
         public FilmMapper()
         {
+            _repository = new FilmRepository();
             _converter = new FilmConverter();
+            _filmTypeMapper = new FilmTypeMapper();
             _typesConverter = new FilmTypeConverter();
         }
 
+        /// <summary>
+        /// get films by params
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="pageCount"></param>
+        /// <param name="name"></param>
+        /// <param name="year"></param>
+        /// <param name="byType"></param>
+        /// <returns></returns>
         public Tuple<IEnumerable<Film>, long> GetFilms(
             int page
             , int pageCount
@@ -28,107 +40,56 @@ namespace WebAPI.Services
             , int byType = 0
             )
         {
-            long count;
-
             var films = new List<Film>();
-            using (ApplicationContext db = new ApplicationContext())
+            var dbFilms = _repository.Get(page, pageCount, name, year, byType);
+            long count = dbFilms.Item2;
+
+            foreach (var dbFilm in dbFilms.Item1)
             {
-                IQueryable<DBFilm> dbFilms = db.Films;
+                var type = _filmTypeMapper.Get(dbFilm.TypeId);
 
-                dbFilms = dbFilms.Where(x => x.Status == 0);
-
-                if (year > 0)
-                    dbFilms = dbFilms
-                        .Where(x => x.Year == year);
-
-                if (byType > 0)
-                    dbFilms = dbFilms
-                        .Where(x => x.TypeId == byType);
-
-                if (!string.IsNullOrEmpty(name))
-                {
-                    var lowerName = name.ToLower();
-                    dbFilms = dbFilms
-                        .Where(x => x.Name
-                                    .ToLower()
-                                    .Contains(lowerName));
-                }
-                    
-
-                count = dbFilms.Count();
-                dbFilms = dbFilms
-                    .OrderBy(x=>x.Id)
-                    .Skip((page - 1) * pageCount)
-                    .Take(pageCount);
-
-                foreach(var dbFilm in dbFilms)
-                {
-                    var dbType = db.FilmTypes
-                        .FirstOrDefault(x => x.Id == dbFilm.TypeId);
-                    var type = _typesConverter
-                        .toView(dbType);
-
-                    films.Add(_converter
-                                .SetType(type)
-                                .toView(dbFilm));
-                }
-
+                films.Add(_converter
+                            .SetType(type)
+                            .toView(dbFilm));
             }
+
             return new Tuple<IEnumerable<Film>, long>(films, count);
         }
 
+        /// <summary>
+        /// get film by id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Film GetFilm(int id)
         {
-            DBFilm dBFilm;
-            DBFilmType dBFilmType;
+            DBFilm dBFilm = _repository.Get(id);
 
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                dBFilm = db.Films.FirstOrDefault(x => x.Id == id);
-                dBFilmType = db.FilmTypes.FirstOrDefault(x => x.Id == dBFilm.TypeId);       
-            }
-
-            var type = _typesConverter.toView(dBFilmType);
+            var type = _filmTypeMapper.Get(dBFilm.TypeId);
             var film = _converter.SetType(type).toView(dBFilm);
 
             return film;
         }
 
+        /// <summary>
+        /// delete film by id
+        /// </summary>
+        /// <param name="id"></param>
         public void DeleteFilm(int id)
         {
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var film = db.Films.FirstOrDefault(x => x.Id == id);
-                if (film != null)
-                {
-                    db.Films.Remove(film);
-                }
-                db.SaveChanges();
-            }
-
+            _repository.DeleteFilm(id);
         }
 
+        /// <summary>
+        /// save film
+        /// </summary>
+        /// <param name="film"></param>
+        /// <returns></returns>
         public long SaveFilm(Film film)
         {
             var dbFilm = _converter.toDB(film);
 
             return _repository.Save(dbFilm);
-        }
-
-        public IEnumerable<FilmType> GetFilmTypes()
-        {
-            var types = new List<FilmType>();
-
-            using (ApplicationContext db = new ApplicationContext())
-            {
-                var dbTypes = db.FilmTypes;
-
-                foreach(var dbType in dbTypes)
-                {
-                    types.Add(_typesConverter.toView(dbType));
-                }
-            }
-            return types;
         }
     }
 }
