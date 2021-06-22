@@ -4,8 +4,12 @@
     v-cloak>
     <nav>
       <div class="nav-wrapper">
-        <a href="#!" class="brand-logo right">
-          <img src="logo60.png"/>
+        <a id="lg-link" href="#!" class="brand-logo right">
+          <img id="lg" 
+            src="lg.png"/>
+          <div id="lg-body">
+            Ниндзя или настоящий джедай. Сайт для джедаев!
+          </div>
         </a>
         <ul class="left hide-on-med-and-down">
           <li 
@@ -63,6 +67,24 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+.brand-logo{
+  position: relative;
+}
+#lg-body{
+  position: absolute;
+  display: none;
+  z-index: 10000;
+  background-color: #ee6e73;
+  top: 65px;
+  border-radius: 5px;
+  font-size: 12pt;
+  box-shadow: 0 0 10px rgba(0,0,0,0.5); /* Параметры тени */
+  line-height: 20pt;
+  padding: 5px;
+}
+#lg-link:hover  #lg-body {
+  display: block !important;
 }
 [v-cloak]{
   display: none;
