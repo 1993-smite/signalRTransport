@@ -1,5 +1,6 @@
 import Films from "@/views/Films.vue";
 import Tasks from "@/views/Tasks.vue";
+import Frameworks from "@/views/Frameworks.vue";
 
 const routes = [
   {
@@ -13,6 +14,12 @@ const routes = [
     name: "Таски",
     component: Tasks,
     meta: { title: 'Таски' }
+  },
+  {
+    path: "/frameworks",
+    name: "Фреймворки",
+    component: Frameworks,
+    meta: { title: 'Фреймворки' }
   },
 ];
 
