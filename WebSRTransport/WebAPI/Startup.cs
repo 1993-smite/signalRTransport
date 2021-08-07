@@ -25,7 +25,12 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            //services.AddMvc();
+            services.AddControllersWithViews(mvcOtions =>
+            {
+                mvcOtions.EnableEndpointRouting = false;
+            });
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen();
         }
@@ -57,8 +62,17 @@ namespace WebAPI
                                           .AllowAnyHeader()
                                           .AllowAnyMethod());
 
-            app.UseHttpsRedirection();
-            app.UseMvc();
+            //app.UseHttpsRedirection();
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllers();
+            //});
+            //app.UseEndpoints(endpoints =>
+            //{
+            //    endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}");
+            //});
+            //app.UseMvc();
+            app.UseMvcWithDefaultRoute();
         }
     }
 }
