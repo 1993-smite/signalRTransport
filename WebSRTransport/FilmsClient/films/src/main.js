@@ -1,5 +1,7 @@
 import 'materialize-css/dist/css/materialize.min.css'
 import 'material-design-icons/iconfont/material-icons.css'
+import 'ol/ol.css'
+import './main.css'
 
 import { createApp } from 'vue'
 import App from './App.vue'

@@ -69,8 +69,8 @@ export default {
   color: #2c3e50;
 }
 .container {
-    max-width: 1480px;
-    width: 90% !important;
+    max-width: 1580px;
+    width: 96% !important;
 }
 .brand-logo{
   position: relative;

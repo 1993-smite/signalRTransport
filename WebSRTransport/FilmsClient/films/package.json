@@ -13,6 +13,7 @@
     "core-js": "^3.6.5",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
+    "ol": "^6.6.1",
     "signalr": "^2.4.2",
     "vue": "^3.0.0",
     "vue-router": "^4.0.8",
@@ -25,7 +26,10 @@
     "@vue/compiler-sfc": "^3.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^7.0.0"
+    "eslint-plugin-vue": "^7.0.0",
+    "node-sass": "^6.0.1",
+    "sass": "^1.37.5",
+    "sass-loader": "^12.1.0"
   },
   "eslintConfig": {
     "root": true,
