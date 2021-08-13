@@ -1,7 +1,7 @@
 import Films from "@/views/Films.vue";
 import Tasks from "@/views/Tasks.vue";
 import Frameworks from "@/views/Frameworks.vue";
-import Map from "@/views/Map.vue";
+import MapWorker from "@/views/MapWorker.vue";
 
 const routes = [
   {
@@ -25,7 +25,7 @@ const routes = [
   {
     path: "/map",
     name: "Карта",
-    component: Map,
+    component: MapWorker,
     meta: { title: 'Карта' }
   },
 ];
