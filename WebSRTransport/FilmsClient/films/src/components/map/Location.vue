@@ -20,7 +20,7 @@ export default {
       invalid: false,
       lat: 0,
       lon: 0,
-      isOSM: false
+      isOSM: true
     }
   },
   methods: {

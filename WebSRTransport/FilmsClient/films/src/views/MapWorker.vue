@@ -4,6 +4,7 @@
             <h5>Карта</h5>
             <MapView 
               :CirclePoints="points"
+              :Path="pathLine"
               :CurCenter="center" />
         </div>
         <div class="col s1">
@@ -12,7 +13,8 @@
             <h5>Рабочая панель</h5>
             <MapPanel 
               :coordinates="coords" 
-              v-on:addLocation="addLocation" />
+              :path="pathLine.path"
+              v-on:addLocationPath="addLocationPath" />
         </div> 
     </div>
 </template>
@@ -31,6 +33,9 @@ export default {
     return {
       coords: [],
       points: [],
+      pathLine: {
+        path: []
+      },
       center: [37.64, 55.76],
     }
   },
@@ -49,6 +54,18 @@ export default {
       };
       this.points.push(point);
       this.center = point.coord;
+    },
+    addLocationPath: function(location){
+      //this.path.push([location.coord.lon, location.coord.lat]);
+      this.addPointPath(location);
+    },
+    addPointPath: function(location){
+      let point = [
+          location.coord.lon,
+          location.coord.lat
+        ];
+      this.pathLine.path.push(point);
+      //this.center = point.coord;
     }
   },
   mounted(){

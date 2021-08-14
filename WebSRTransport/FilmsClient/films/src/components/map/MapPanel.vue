@@ -1,7 +1,7 @@
 <template>
     <div class="row">
       <ul class="collapsible">
-        <li class="active">
+        <li>
           <div class="collapsible-header">Точки</div>
           <div class="collapsible-body">
             <div class="row">
@@ -24,10 +24,21 @@
               </div>
             </div>
         </li>
-        <li>
+        <li class="active">
           <div class="collapsible-header">Маршруты</div>
           <div class="collapsible-body">
-
+            <div class="row">
+              <div class="col s12">
+                  <div class="input-field"
+                    v-for="(item,index) in [1,2]"
+                    :key="item">
+                    <Location 
+                      :id="'path' + index"
+                      v-on:change="changeLocationPath" />
+                    <label :for="'path' + index">Точка №{{index+1}}</label>
+                  </div>
+              </div>
+            </div>
           </div>
         </li>
       </ul>
@@ -41,7 +52,8 @@ import Location from './Location'
 export default {
   name: 'MapPanel',
   props:{
-    coordinates: Array
+    coordinates: Array,
+    path: Array
   },
   components: {
     Location
@@ -61,6 +73,14 @@ export default {
 
       if (!exist){
         this.$emit('addLocation', location);
+      }
+      return;
+    },
+    changeLocationPath: function(location){
+      let exist = this.path.find(x=>x[0] === location.coord.lon && x[1] === location.coord.lat);
+
+      if (!exist){
+        this.$emit('addLocationPath', location);
       }
       return;
     }

@@ -17,9 +17,18 @@
 
     <ol-vector-layer>
         <ol-source-vector>
+            <ol-feature :key="'path1'">
+              <Path 
+                :path="Path.path"
+                :color="Path.color"
+                :text="Path.text"
+                :width="Path.width" />
+                
+            </ol-feature>
             <ol-feature 
+            
               v-for="(item, index) in CirclePoints"
-              :key="index">
+              :key="'point' + index">
               <circle-point 
                 :coord="item.coord"
                 :color="item.color"
@@ -37,14 +46,17 @@
 
 <script>
 import CirclePoint from './CirclePoint.vue'
+import Path from './Path.vue'
 
 export default {
   name: 'MapView',
   components: {
-    CirclePoint
+    CirclePoint,
+    Path
   },
   props: {
     CirclePoints: Array,
+    Path: Array,
     CurCenter: Array,
   },
   computed: {
