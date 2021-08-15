@@ -6,7 +6,7 @@
 
     <ol-view 
       ref="view" 
-      :center="CurCenter" 
+      :center="CurCenter.coord" 
       :rotation="rotation" 
       :zoom="zoom" 
       :projection="projection" />
@@ -15,16 +15,31 @@
         <ol-source-osm />
     </ol-tile-layer>
 
-    <ol-vector-layer>
+    <ol-context-menu 
+      :items="ContextMenuItems" />
+
+    <ol-vector-layer> 
         <ol-source-vector>
-            <ol-feature :key="'path1'">
+            <ol-feature
+              v-for="(route, index) in pathSteps"
+              :key="'route' + index"
+              @mouseover="pathStat(index)"
+              @click="pathStat(index)">
               <Path 
-                :path="Path.path"
-                :color="Path.color"
-                :text="Path.text"
-                :width="Path.width" />
-                
+                :path="route"
+                :color="getColor(index)"
+                @mouseover="pathStat(index)"
+                @click="pathStat(index)" />
             </ol-feature>
+            <ol-feature
+              v-for="(item, index) in Path.path"
+              :key="'point' + item.id">
+               <circle-point
+                  :coord="item.coord"
+                  :color="getColor(index)"
+                  :text="`${item.id}`" />
+            </ol-feature>
+            
             <ol-feature 
             
               v-for="(item, index) in CirclePoints"
@@ -58,11 +73,19 @@ export default {
     CirclePoints: Array,
     Path: Array,
     CurCenter: Array,
+    ContextMenuItems: Array
   },
   computed: {
     getFeatures: function(){
       return [];
-    }
+    },
+    pathSteps: function(){
+      let res = this.Path.routes 
+        ? this.Path.routes.map((x)=> x.steps.map(step=> step.maneuver.location))
+        : [[],[]];
+
+      return res;
+    },
   },
   data: ()=>{
     return {
@@ -74,12 +97,18 @@ export default {
         strokeWidth: 4,
         strokeColor: 'red',
         fillColor: 'white'
-      }
+      },
+      colors: ['#9f8fe4', '#ec9edd', '#6e75fd', '#72cbfb', '#66e885', '#a8ef55', '#fbdf67'],
     }
   },
 
   methods: {
-    
+    getColor(index){
+      return this.colors[index];
+    },
+    pathStat: function(index){
+      console.log(index, this.Path.routes[index])
+    }
   },
   mounted(){
     

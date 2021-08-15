@@ -1,11 +1,14 @@
 <template>
     <ol-geom-line-string 
         :coordinates="path"
+        title="line"
+        v-on:click="clickLine()"
         ></ol-geom-line-string>
     <ol-style>
         <ol-style-stroke 
             :color="color" 
-            :width="width"></ol-style-stroke>          
+            :width="width"></ol-style-stroke>  
+        <ol-style-text :text="text" ></ol-style-text>        
     </ol-style>
 </template>
 
@@ -39,7 +42,9 @@ export default {
   },
 
   methods: {
-    
+    clickLine: function(){
+        console.log('test dfsd');
+    }
   },
   mounted(){
     

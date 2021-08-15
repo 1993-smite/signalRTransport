@@ -25,7 +25,9 @@ export default {
   },
   methods: {
     checkAddress: async function(){
-      let coords = [37.511154, 55.876183];
+      let lat = 37.511154 + Math.random() / 100;
+      let lon = 55.876183 + Math.random() / 100;
+      let coords = [lat, lon];
       if (this.isOSM){
         let res = await OSMLib.getCoordinateByAddress(this.address);
         try{
