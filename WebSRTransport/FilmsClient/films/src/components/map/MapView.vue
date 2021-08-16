@@ -1,8 +1,9 @@
 <template>
   <ol-map 
     id='map'
-    :loadTilesWhileAnimating="true" 
-    :loadTilesWhileInteracting="true">
+    :loadTilesWhileAnimating="false" 
+    :loadTilesWhileInteracting="true"
+    @click="pathStat($event)">
 
     <ol-view 
       ref="view" 
@@ -18,19 +19,23 @@
     <ol-context-menu 
       :items="ContextMenuItems" />
 
-    <ol-vector-layer> 
-        <ol-source-vector>
+    <ol-fullscreen-control tipLabel="Полный вид" />
+
+    <ol-vector-layer
+      @click="pathStat(index)"> 
+        <ol-source-vector :projection="projection">
             <ol-feature
               v-for="(route, index) in pathSteps"
               :key="'route' + index"
-              @mouseover="pathStat(index)"
-              @click="pathStat(index)">
+              :title="'route' + index">
               <Path 
                 :path="route"
                 :color="getColor(index)"
+                :title="'route' + index"
                 @mouseover="pathStat(index)"
                 @click="pathStat(index)" />
             </ol-feature>
+
             <ol-feature
               v-for="(item, index) in Path.path"
               :key="'point' + item.id">
@@ -39,23 +44,24 @@
                   :color="getColor(index)"
                   :text="`${item.id}`" />
             </ol-feature>
-            
-            <ol-feature 
-            
-              v-for="(item, index) in CirclePoints"
-              :key="'point' + index">
-              <circle-point 
-                :coord="item.coord"
-                :color="item.color"
-                :text="item.text"
-                :radius="item.radius" />
-                
-            </ol-feature>
+
+
+              <ol-feature 
+              
+                v-for="(item, index) in CirclePoints"
+                :key="'point' + index">
+                <circle-point 
+                  :coord="item.coord"
+                  :color="item.color"
+                  :text="item.text"
+                  :radius="item.radius" />
+                  
+              </ol-feature>
 
         </ol-source-vector>
 
     </ol-vector-layer>
-    
+
   </ol-map>
 </template>
 
@@ -73,7 +79,7 @@ export default {
     CirclePoints: Array,
     Path: Array,
     CurCenter: Array,
-    ContextMenuItems: Array
+    ContextMenuItems: Array,
   },
   computed: {
     getFeatures: function(){
@@ -106,8 +112,27 @@ export default {
     getColor(index){
       return this.colors[index];
     },
-    pathStat: function(index){
-      console.log(index, this.Path.routes[index])
+    pathStat: function(event){
+      console.log(event)
+      var feature = event.map.forEachFeatureAtPixel(event.pixel, function(feature) {
+                    return feature;
+                 });
+      if (feature) {
+        console.log("Feature found");
+        feature.geometryChangeKey_.target.click();
+      }
+    },
+    geoLocChange: function(loc) {
+        console.log(loc);
+        // view.value.fit([loc[0], loc[1], loc[0], loc[1]], {
+        //     maxZoom: 14
+        // })
+    },
+    enableRotatedTransform: function(event){
+      console.log('enableRotatedTransform',event)
+    },
+    drawend: function(event){
+      console.log(event)
     }
   },
   mounted(){
