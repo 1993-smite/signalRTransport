@@ -10,7 +10,7 @@
                     v-for="(item,index) in countLocation"
                     :key="item">
                     <Location 
-                      :id="index"
+                      :id="`point-${index}`"
                       v-on:change="changeLocation" />
                     <label :for="index">Точка №{{index+1}}</label>
                   </div>

@@ -2,10 +2,10 @@ export default {
     fetchData
 }
 
-async function fetchData (){
-    var context = this;
+async function fetchData (address){
     var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
     var token = "9d035861f269ba41c82ce284ab4afd3b3979ba93";
+    let vals;
     var options = {
         method: "POST",
         mode: "cors",
@@ -15,26 +15,16 @@ async function fetchData (){
             "Authorization": "Token " + token
         },
         body: JSON.stringify({
-            query: this.address, 
+            query: address, 
             locations: [
                 {
-                    "region": "москва"
+                    "region": "Москва"
                 }
             ],
-            count: 5})
+            count: 10})
     }
-    fetch(url, options)
-        .then(response => response.json())
-        .then(result => {
-            let vals = result.suggestions.map(x=>x.value);
-            context.addresses = {};
-
-            for(let itm of vals){
-                context.addresses[`${itm}`] = itm;
-            }
-
-            context.elemAddress.updateData(context.addresses);
-
-        })
-        .catch(error => console.log("error", error));
+    let response = await fetch(url, options)
+    let result = await response.json();
+    vals = result.suggestions.map(x=>x.value);
+    return vals;
 }
