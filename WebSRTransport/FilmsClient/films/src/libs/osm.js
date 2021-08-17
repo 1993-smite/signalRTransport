@@ -1,5 +1,6 @@
 export default {
     getCoordinateByAddress,
+    getAddressByCoordinate,
     getRouteByCoordinates
 }
 
@@ -11,6 +12,18 @@ export default {
 async function getCoordinateByAddress(address){
     let response = await 
             fetch(`http://search.maps.sputnik.ru/search/addr?tlat=56.1&tlon=36.8&blat=55.4&blon=38.6&q=${address}`);
+        let result = await response.json();
+    return result.result;
+}
+
+/**
+ * 
+ * @param {*} lat 
+ * @param {*} lon 
+ */
+async function getAddressByCoordinate(lat, lon){
+    let response = await 
+            fetch(`http://whatsthere.maps.sputnik.ru/point?lat=${lat}&lon=${lon}&apikey=5032f91e8da6431d8605-f9c0c9a00357`);
         let result = await response.json();
     return result.result;
 }

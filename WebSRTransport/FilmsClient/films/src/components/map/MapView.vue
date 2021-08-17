@@ -3,7 +3,7 @@
     id='map'
     :loadTilesWhileAnimating="false" 
     :loadTilesWhileInteracting="true"
-    @click="pathStat($event)">
+    @click="tapMap($event)">
 
     <ol-view 
       ref="view" 
@@ -66,8 +66,11 @@
 </template>
 
 <script>
+import M from 'materialize-css'
 import CirclePoint from './CirclePoint.vue'
 import Path from './Path.vue'
+//import OSMLib from '@/libs/osm'
+import dadata from '@/libs/dadata'
 
 export default {
   name: 'MapView',
@@ -112,7 +115,7 @@ export default {
     getColor(index){
       return this.colors[index];
     },
-    pathStat: function(event){
+    tapMap: async function(event){
       console.log(event)
       var feature = event.map.forEachFeatureAtPixel(event.pixel, function(feature) {
                     return feature;
@@ -120,6 +123,14 @@ export default {
       if (feature) {
         console.log("Feature found");
         feature.geometryChangeKey_.target.click();
+      }
+      else {
+        let coord = event.map.getCoordinateFromPixel(event.pixel)
+        //let address = await OSMLib.getAddressByCoordinate(coord[0], coord[1]);
+        let address = await dadata.getAddress(coord[1], coord[0]);
+        console.log("Feature not found", coord, address.suggestions[0].value);
+        let res = coord.join(';');
+        M.toast({html: `Coordinate: ${res}, Address: ${address.suggestions[0].value}`})
       }
     },
     geoLocChange: function(loc) {
