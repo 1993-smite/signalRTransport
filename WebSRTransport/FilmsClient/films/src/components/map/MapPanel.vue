@@ -69,6 +69,9 @@ export default {
       M.updateTextFields();
     },
     changeLocation: function(location){
+      if (!location.coord)
+        return;
+      
       let exist = this.coordinates.find(x=>x[0] === location.coord.lon && x[1] === location.coord.lat);
 
       if (!exist){
@@ -77,6 +80,9 @@ export default {
       return;
     },
     changeLocationPath: function(location){
+      if (!location.coord)
+        return;
+
       let exist = this.path.find(x=>x[0] === location.coord.lon && x[1] === location.coord.lat);
 
       if (!exist){

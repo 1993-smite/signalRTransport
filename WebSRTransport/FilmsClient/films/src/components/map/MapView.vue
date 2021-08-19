@@ -117,6 +117,10 @@ export default {
     },
     tapMap: async function(event){
       console.log(event)
+
+      if (!event.map)
+        return;
+
       var feature = event.map.forEachFeatureAtPixel(event.pixel, function(feature) {
                     return feature;
                  });
@@ -147,7 +151,6 @@ export default {
     }
   },
   mounted(){
-    
   },
 }
 </script>
