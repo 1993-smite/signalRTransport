@@ -47,9 +47,9 @@
 
 
               <ol-feature 
-              
                 v-for="(item, index) in CirclePoints"
-                :key="'point' + index">
+                :key="'point' + index"
+                :id="'point' + index">
                 <circle-point 
                   :coord="item.coord"
                   :color="item.color"
@@ -125,8 +125,9 @@ export default {
                     return feature;
                  });
       if (feature) {
-        console.log("Feature found");
-        feature.geometryChangeKey_.target.click();
+        console.log("Feature found", feature, feature.values_.geometry.flatCoordinates);
+        this.$emit('clickFeature', feature);
+        //feature.geometryChangeKey_.target.click();
       }
       else {
         let coord = event.map.getCoordinateFromPixel(event.pixel)

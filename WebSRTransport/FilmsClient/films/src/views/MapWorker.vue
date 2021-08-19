@@ -6,7 +6,8 @@
               :CirclePoints="points"
               :Path="pathLine"
               :CurCenter="center"
-              :ContextMenuItems="contextMenuItems" />
+              :ContextMenuItems="contextMenuItems"
+              v-on:clickFeature="checkFeature" />
         </div>
         <div class="col s1">
         </div>
@@ -112,6 +113,10 @@ export default {
     routePath: async function(){
       this.pathLine.routes = await 
         OSMLib.getRouteByCoordinates(this.pathLine.path.map(x=>x.coord));
+    },
+    checkFeature: function(feature){
+      let coord = feature.values_.geometry.flatCoordinates;
+      this.points = this.points.filter(x=>!(x.coord[0] === coord[0] && x.coord[1] === coord[1]));
     }
   },
   mounted(){

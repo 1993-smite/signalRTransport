@@ -51,7 +51,8 @@ async function fetchData (address){
             query: address, 
             locations: [
                 {
-                    "region": "Москва"
+                    "region": "Москва",
+                    "fias_level": 9
                 }
             ],
             count: 10})
