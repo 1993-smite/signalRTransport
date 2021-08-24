@@ -1,3 +1,11 @@
 .row .col {
     padding: 0px 0px;
 }
+
+.material-icons{
+    cursor: pointer;
+}
+
+.pointer{
+    cursor: pointer;
+}

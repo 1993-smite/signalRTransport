@@ -12,12 +12,34 @@
         <div class="col s1">
         </div>
         <div class="col s4 two">
-            <h5>Рабочая панель</h5>
+            <Toggle>
+              <template v-slot:title>
+                <h5>Рабочая панель</h5>
+              </template>
+              <template v-slot:default>
+                <i 
+                  class="small material-icons s1 pointer"
+                  style="float:right; color: red"
+                  v-on:click="clearFeatures()">clear_all</i>
+                <MapPanel 
+                  :coordinates="coords" 
+                  :path="pathLine.path"
+                  v-on:addLocation="addLocation"
+                  v-on:addLocationPath="addLocationPath" />
+              </template>
+            </Toggle>
+            <!--h5>Рабочая панель</h5>
+            <div class="row">
+              <i 
+                class="small material-icons s1 pointer"
+                style="float:right; color: red"
+                v-on:click="clearFeatures()">clear_all</i>
+            </div>
             <MapPanel 
               :coordinates="coords" 
               :path="pathLine.path"
               v-on:addLocation="addLocation"
-              v-on:addLocationPath="addLocationPath" />
+              v-on:addLocationPath="addLocationPath" /-->
         </div> 
     </div>
 </template>
@@ -25,13 +47,15 @@
 <script>
 import MapView from '../components/map/MapView.vue'
 import MapPanel from '../components/map/MapPanel.vue'
+import Toggle from '../components/common/Toggle.vue'
 import OSMLib from '@/libs/osm'
 
 export default {
   name: 'MapWorker',
   components: {
     MapView,
-    MapPanel
+    MapPanel,
+    Toggle
   },
   data: function(){
     let center = { coord: [37.64, 55.76] };
@@ -117,6 +141,10 @@ export default {
     checkFeature: function(feature){
       let coord = feature.values_.geometry.flatCoordinates;
       this.points = this.points.filter(x=>!(x.coord[0] === coord[0] && x.coord[1] === coord[1]));
+    },
+    clearFeatures: function(){
+      this.points = [];
+      this.pathLine = [];
     }
   },
   mounted(){

@@ -1,47 +1,42 @@
 <template>
     <div class="row">
-      <ul class="collapsible">
-        <li>
-          <div class="collapsible-header">Точки</div>
-          <div class="collapsible-body">
-            <div class="row">
-              <div class="col s9">
-                  <div class="input-field"
-                    v-for="(item,index) in countLocation"
-                    :key="item">
-                    <Location 
-                      :id="`point-${index}`"
-                      v-on:change="changeLocation" />
-                    <label :for="index">Точка №{{index+1}}</label>
-                  </div>
-                </div>
-                <div class="col s3">
-                  <a class="btn-floating btn-medium waves-effect waves-light red"
-                    v-on:click="addCountLocation()">
-                    <i class="material-icons">add</i>
-                  </a>
-                </div>
-              </div>
-            </div>
+      <ul id="tabs" class="tabs">
+        <li class="tab col s3">
+          <a class="active" 
+            href="#test-swipe-1">Точки</a>
         </li>
-        <li class="active">
-          <div class="collapsible-header">Маршруты</div>
-          <div class="collapsible-body">
-            <div class="row">
-              <div class="col s12">
-                  <div class="input-field"
-                    v-for="(item,index) in [1,2]"
-                    :key="item">
-                    <Location 
-                      :id="'path' + index"
-                      v-on:change="changeLocationPath" />
-                    <label :for="'path' + index">Точка №{{index+1}}</label>
-                  </div>
-              </div>
-            </div>
-          </div>
+        <li class="tab col s3">
+          <a href="#test-swipe-2">Маршруты</a>
         </li>
       </ul>
+      <div id="test-swipe-1" class="col s12">
+        <div class="col s9">
+          <div class="input-field"
+            v-for="(item,index) in countLocation"
+            :key="item">
+            <Location 
+              :id="`point-${index}`"
+              v-on:change="changeLocation" />
+            <label :for="index">Точка №{{index+1}}</label>
+          </div>
+        </div>
+        <div class="col s3">
+            <a class="btn-floating btn-medium waves-effect waves-light red"
+              v-on:click="addCountLocation()">
+              <i class="material-icons">add</i>
+            </a>
+        </div>
+      </div>
+      <div id="test-swipe-2" class="col s12">
+        <div class="input-field"
+          v-for="(item,index) in [1,2]"
+          :key="item">
+          <Location 
+            :id="'path' + index"
+            v-on:change="changeLocationPath" />
+          <label :for="'path' + index">Точка №{{index+1}}</label>
+        </div>
+      </div>
     </div>
 </template>
 
@@ -94,9 +89,9 @@ export default {
   mounted(){
     this.addCountLocation();
     
-    var elems = document.querySelectorAll('.collapsible');
-    M.Collapsible.init(elems, {
-      accordion: false
+    var el = document.querySelectorAll('#tabs');
+    M.Tabs.init(el, {
+
     });
 
   },
