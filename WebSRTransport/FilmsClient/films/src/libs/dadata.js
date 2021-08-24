@@ -36,8 +36,9 @@ async function getAddress(lat, lon){
  * @returns 
  */
 async function fetchData (address){
-    var url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
-    var token = "9d035861f269ba41c82ce284ab4afd3b3979ba93";
+    let url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
+    let token = "9d035861f269ba41c82ce284ab4afd3b3979ba93";
+    let secret = "705eccbd748bfd6ff04613e04e833a8c6c676262"
     let vals;
     var options = {
         method: "POST",
@@ -45,7 +46,8 @@ async function fetchData (address){
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json",
-            "Authorization": "Token " + token
+            "Authorization": "Token " + token,
+            "X-Secret": secret
         },
         body: JSON.stringify({
             query: address, 
