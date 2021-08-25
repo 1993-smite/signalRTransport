@@ -71,6 +71,8 @@ import CirclePoint from './CirclePoint.vue'
 import Path from './Path.vue'
 //import OSMLib from '@/libs/osm'
 import dadata from '@/libs/dadata'
+import GeoLocation from '@/libs/geoLocation'
+import saveGeolocation from '@/libs/db'
 
 export default {
   name: 'MapView',
@@ -83,6 +85,7 @@ export default {
     Path: Array,
     CurCenter: Array,
     ContextMenuItems: Array,
+    GeoLocations: Array
   },
   computed: {
     getFeatures: function(){
@@ -115,6 +118,7 @@ export default {
     getColor(index){
       return this.colors[index];
     },
+    ...saveGeolocation,
     tapMap: async function(event){
       console.log(event)
 
@@ -133,9 +137,13 @@ export default {
         let coord = event.map.getCoordinateFromPixel(event.pixel)
         //let address = await OSMLib.getAddressByCoordinate(coord[0], coord[1]);
         let address = await dadata.getAddress(coord[1], coord[0]);
-        console.log("Feature not found", coord, address.suggestions[0].value);
+        let geoLocation = new GeoLocation(address.suggestions[0].value, coord[1], coord[0]);
+
+        console.log("Feature not found", geoLocation);
         let res = coord.join(';');
-        M.toast({html: `Coordinate: ${res}, Address: ${address.suggestions[0].value}`})
+        this.saveGeolocation(geoLocation);
+        M.toast({html: `Coordinate: ${res}, Address: ${geoLocation.address}`})
+        this.$emit('addGeoLocation', geoLocation);
       }
     },
     geoLocChange: function(loc) {

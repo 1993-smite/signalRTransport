@@ -7,11 +7,14 @@
               :Path="pathLine"
               :CurCenter="center"
               :ContextMenuItems="contextMenuItems"
-              v-on:clickFeature="checkFeature" />
+              :GeoLocations="geolocations"
+              v-on:clickFeature="checkFeature"
+              v-on:addGeoLocation="addGeoLocation" />
         </div>
         <div class="col s1">
         </div>
         <div class="col s4 two">
+        
             <Toggle>
               <template v-slot:title>
                 <h5>Рабочая панель</h5>
@@ -26,6 +29,34 @@
                   :path="pathLine.path"
                   v-on:addLocation="addLocation"
                   v-on:addLocationPath="addLocationPath" />
+              </template>
+            </Toggle>
+
+            <Toggle>
+              <template v-slot:title>
+                <h5>Адреса</h5>
+              </template>
+              <template v-slot:default>
+                <div id="geo-location">
+                  <table class="striped highlight">
+                    <thead>
+                      <tr>
+                          <th>Адрес</th>
+                          <th>Широта</th>
+                          <th>Долгота</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      <tr v-for="item in geolocations"
+                        v-bind:key="item.address">
+                        <td>{{item.address}}</td>
+                        <td>{{item.lat}}</td>
+                        <td>{{item.lon}}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
               </template>
             </Toggle>
             <!--h5>Рабочая панель</h5>
@@ -67,6 +98,7 @@ export default {
         path: []
       },
       center: center,
+      geolocations: [],
       contextMenuItems: [{
             text: 'Center map here',
             callback: (val) => {
@@ -145,6 +177,9 @@ export default {
     clearFeatures: function(){
       this.points = [];
       this.pathLine = [];
+    },
+    addGeoLocation: function(geoLocation){
+      this.geolocations.push(geoLocation);
     }
   },
   mounted(){
@@ -154,5 +189,8 @@ export default {
 </script>
 
 <style scoped>
-
+  #geo-location{
+    max-height: 600px;
+    overflow-y: auto;
+  }
 </style>
