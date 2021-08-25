@@ -5,14 +5,17 @@
         :class="{ invalid: invalid }"
         :id="id"
         v-model.trim='address'
-        v-on:change.stop="checkAddress($event)"
-        v-on:input="loadAutoComplite()">
+        
+        v-on:input="loadAutoComplite()"
+        autocomplete="off">
 </template>
 
 <script>
 import M from 'materialize-css'
 import OSMLib from '@/libs/osm'
 import DaData from '@/libs/dadata'
+import GeoLocation from '@/libs/geoLocation'
+import saveGeolocation from '@/libs/db'
 //const axios = require('axios')
 
 export default {
@@ -48,16 +51,20 @@ export default {
       }
 
       let result = [coords[0], coords[1]]; //await getCoordinateByAddress(this.address);
+      this.saveAddress(this.address, result);
       this.$emit('change', { address: this.address, coord: { lat: result[1], lon: result[0] } });
     },
+    saveAddress: async function(address, coord){
+      let geo = new GeoLocation(address, coord[1], coord[0]);
+      await this.saveGeolocation(geo);
+    },
+    ...saveGeolocation,
     loadAutoComplite: async function(){
 
       if (this.address.length < 6)
         return;
 
       let res = await DaData.fetchData(this.address);
-
-      console.log(res);
 
       let vars = {};
       for(let it of res){
@@ -69,9 +76,13 @@ export default {
     }
   },
   mounted(){
+    let context = this;
     var elems = document.querySelector(`#${this.id}`);
     this.instance = M.Autocomplete.init(elems, {
-      minLength: 5
+      minLength: 5,
+      onAutocomplete: function(item){
+        context.address = item;
+      }
     });
   },
   unmounted(){
