@@ -2,6 +2,7 @@ import Films from "@/views/Films.vue";
 import Tasks from "@/views/Tasks.vue";
 import Frameworks from "@/views/Frameworks.vue";
 import MapWorker from "@/views/MapWorker.vue";
+import Directives from "@/views/Directives.vue";
 
 const routes = [
   {
@@ -27,6 +28,12 @@ const routes = [
     name: "Карта",
     component: MapWorker,
     meta: { title: 'Карта' }
+  },
+  {
+    path: "/directives",
+    name: "Директивы",
+    component: Directives,
+    meta: { title: 'Директивы' }
   },
 ];
 

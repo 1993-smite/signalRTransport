@@ -9,8 +9,11 @@ import App from './App.vue'
 import store from "./stores/index.js"
 import router from './router'
 import OpenLayersMap from 'vue3-openlayers'
+import directives from './directives/main.js'
 
-createApp(App).use(store).use(router).use(OpenLayersMap).mount('#app')
+const appMain = createApp(App).use(store).use(router).use(OpenLayersMap);
+directives.Directives.call(appMain);
+appMain.mount('#app');
 
 import moment from 'moment'
 moment.locale('ru-ru')
