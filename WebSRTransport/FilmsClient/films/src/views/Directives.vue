@@ -1,12 +1,21 @@
 <template>
     <div>
         <div class="row">
-            <div class="input-field col s6">
+            <div class="input-field col s4">
                 <input id="date"
                     type="text" 
                     class="datepicker" 
-                    v-date="{ name: 'dt', value: dt, format: 'dd mmmm yyyy' }" />
+                    v-date="{ name: 'dt', value: dt, format: 'd mmmm yyyy' }" 
+                    autocomplete="off"/>
                 <label for="date">Дата</label>
+            </div>
+            <div class="input-field col s2">
+                <a class="btn-floating waves-effect waves-light btn-small pulse"
+                    v-on:click.stop="upDt(dt)">
+                    <i class="material-icons">
+                        update
+                    </i>
+                </a>
             </div>
             <div class="col s6">
                 <pre>
@@ -16,11 +25,13 @@
         </div>
         <div class="row">
             <div class="input-field col s6">
-                <input id="date"
+                <input id="date1"
                     type="text" 
                     class="datepicker" 
-                    v-date="{ name: 'dt1', value: dt1, format: 'dd mmmm yyyy' }" />
-                <label for="date">Дата</label>
+                    v-date="{ name: 'dt1', value: dt1, format: 'd mmmm yyyy' }" 
+                    autocomplete="off"
+                    />
+                <label for="date1">Дата</label>
             </div>
             <div class="col s6">
                 <pre>
@@ -40,9 +51,15 @@
             const dt1 = ref(new Date());
             const test = ref("");
 
+            const upDt = ()=>{
+                dt.value = new Date();
+                dt.value.setHours(240);
+            }
+
             return {
                 dt,
                 dt1,
+                upDt,
                 test
             }
         }

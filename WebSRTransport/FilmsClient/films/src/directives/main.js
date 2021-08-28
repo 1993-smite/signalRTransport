@@ -4,6 +4,23 @@ export default {
 
 import M from 'materialize-css'
 
+function writeDt(el, binding){
+    var instance = M.Datepicker.getInstance(el);
+
+    let dt = binding.instance[binding.value.name];
+
+    if (dt?.toISOString() === instance.date?.toISOString())
+        return;
+
+    instance.setDate(dt);
+    instance.gotoDate(dt);
+
+    el.value = instance.toString();
+
+    return instance;
+}
+
+
 function Directives(){
     this.directive('date', {
         created(){
@@ -13,6 +30,7 @@ function Directives(){
             let nw = new Date();
             let min = binding.value.min || new Date(new Date().setFullYear(nw.getFullYear() - 10));
             let max = binding.value.max || new Date(new Date().setFullYear(nw.getFullYear() + 10));
+
             M.Datepicker.init(el, {
                 defaultDate: binding.value.value,
                 minDate: min,
@@ -29,10 +47,18 @@ function Directives(){
                     //context.task.date = new Date(date.setHours(5));
                     //this.task
                     console.log('dt ---', date);
-                    binding.instance[binding.value.name] = date;
+
+                    let dt = binding.instance[binding.value.name];
+
+                    if (dt?.toISOString() !== date?.toISOString())
+                        binding.instance[binding.value.name] = date;
                 }
             });
+            writeDt(el, binding, vnode);
             console.log(el, binding, vnode);
+        },
+        updated(el, binding, vnode){
+            writeDt(el, binding, vnode);
         }
     })
 }
