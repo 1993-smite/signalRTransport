@@ -4,6 +4,12 @@ export default {
 
 import M from 'materialize-css'
 
+/**
+ *  method directive v-date
+ * @param {*} el 
+ * @param {*} binding 
+ * @returns 
+ */
 function writeDt(el, binding){
     var instance = M.Datepicker.getInstance(el);
 
@@ -20,12 +26,13 @@ function writeDt(el, binding){
     return instance;
 }
 
-
+/**
+ *  директивы для материалайз
+ */
 function Directives(){
+    
+    // v-date
     this.directive('date', {
-        created(){
-            console.log('created', arguments);
-        },
         mounted(el, binding, vnode) {
             let nw = new Date();
             let min = binding.value.min || new Date(new Date().setFullYear(nw.getFullYear() - 10));
@@ -44,10 +51,6 @@ function Directives(){
                     weekdaysAbbrev: ["Вс","Пн", "Вт", "Ср", "Чт", "Пт", "Сб"]
                 },
                 onSelect: function(date){
-                    //context.task.date = new Date(date.setHours(5));
-                    //this.task
-                    console.log('dt ---', date);
-
                     let dt = binding.instance[binding.value.name];
 
                     if (dt?.toISOString() !== date?.toISOString())
@@ -55,10 +58,33 @@ function Directives(){
                 }
             });
             writeDt(el, binding, vnode);
-            console.log(el, binding, vnode);
         },
         updated(el, binding, vnode){
             writeDt(el, binding, vnode);
+        }
+    });
+
+    // v-autocomplite
+    this.directive('autocomplete', {
+        mounted(el, binding) {
+            el.value = binding.value.value;
+
+            let option = {
+                data: binding.value.data || {},
+                limit: binding.value.limit || 10,
+                minLength: binding.value.minLength || 3,
+                onAutocomplete: binding.value.onAutocomplete || function(item){
+                    binding.instance[binding.value.name] = item;
+                },
+            }
+            let instance = M.Autocomplete.init(el, option);
+
+            el.oninput = function() {
+                let vars = binding.value.getData ? binding.value.getData() : binding.value.data;
+
+                instance.updateData(vars);
+                instance.open();
+            };
         }
     })
 }
