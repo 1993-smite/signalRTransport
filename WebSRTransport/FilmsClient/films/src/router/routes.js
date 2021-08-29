@@ -3,6 +3,7 @@ import Tasks from "@/views/Tasks.vue";
 import Frameworks from "@/views/Frameworks.vue";
 import MapWorker from "@/views/MapWorker.vue";
 import Directives from "@/views/Directives.vue";
+import Animate from "@/views/Animate.vue";
 
 const routes = [
   {
@@ -34,6 +35,12 @@ const routes = [
     name: "Директивы",
     component: Directives,
     meta: { title: 'Директивы' }
+  },
+  {
+    path: "/animate",
+    name: "Анимации",
+    component: Animate,
+    meta: { title: 'Анимации' }
   },
 ];
 
