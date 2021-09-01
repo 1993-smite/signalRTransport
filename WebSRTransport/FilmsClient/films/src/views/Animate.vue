@@ -9,7 +9,10 @@
                 </transition>
             </div>
             <div class="col s6">
-                <button @click="show = !show">Toggle show</button>
+                <span id="sp-btn-toggle"
+                    v-on:click="Log('Всплытие')">
+                    <button @click="Log('Цель'); show = !show">Toggle show</button>
+                </span>
             </div>
         </div>
     </div>
@@ -24,13 +27,22 @@
             const test = ref("Test");
             const show = ref(true);
 
+            let Log = (str)=>{
+                console.log(str);
+            } 
+
             return {
                 test,
-                show
+                show,
+                Log
             }
         },
         mounted(){
             M.updateTextFields();
+
+            document.getElementById("sp-btn-toggle").addEventListener("click", function(){
+                console.log("Погружение");
+            }, true)
         }
     }
 </script>
