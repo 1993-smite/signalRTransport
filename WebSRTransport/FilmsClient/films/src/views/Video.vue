@@ -11,7 +11,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Название</th>
+                            <th>Play List</th>
                         </tr>
                     </thead>
 
