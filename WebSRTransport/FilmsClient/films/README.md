@@ -15,3 +15,7 @@
 - /map:
   
   open street map карта и эксперименты с ней
+  
+- /video:
+
+  примитивный видео плейер на vue 3 (Composition API)
