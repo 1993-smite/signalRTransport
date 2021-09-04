@@ -1,25 +1,26 @@
 let index = 1;
+
 let playList = {
-    base: "D:\\Data",
+    base: 'http://localhost:9000/video/',
     list: [
         {
-            name: `Rec 000${index++}.mp4`
+            name: `Rec${index++}.mp4`,
         },
         {
-            name: `Rec 000${index++}.mp4`
+            name: `Rec${index++}.mp4`,
         },
         {
-            name: `Rec 000${index++}.mp4`
+            name: `Rec${index++}.mp4`,
         },
         {
-            name: `Rec 000${index++}.mp4`
+            name: `Rec${index++}.mp4`
         },
         {
-            name: `Rec 000${index++}.mp4`
+            name: `Rec${index++}.mp4`
         },
     ],
     getPath: function(item){
-        return `${this.base}/${item.name}`;
+        return item.path || `${this.base}${item.name}`;
     }
 }
 
