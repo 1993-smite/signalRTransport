@@ -11,5 +11,5 @@ module.exports = {
             //additionalData: `@import "@/assets/_shared.scss";`,
           },
         },
-      },
+      }
 }
