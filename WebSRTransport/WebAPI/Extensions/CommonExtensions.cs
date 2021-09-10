@@ -14,5 +14,12 @@ namespace WebAPI.Extensions
                 ? from as TCast
                 : null;
         }
+        
+        public static TypeTo CastTo<TypeFrom, TypeTo>(this TypeFrom from)
+            where TypeFrom : TypeTo
+            where TypeTo : class
+        {
+            return from as TypeTo;
+        }
     }
 }
