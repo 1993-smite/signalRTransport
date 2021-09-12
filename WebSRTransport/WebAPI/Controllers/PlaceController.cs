@@ -2,6 +2,7 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 using WebAPI.Models;
 using WebAPI.Sevices;
 using WebAPI.Sevices.Address;
@@ -12,18 +13,17 @@ namespace WebAPI.Controllers
     [ApiController]
     public class PlaceController : ControllerBase
     {
+        private Cache<PlaceAnswer> _cache;
+        public PlaceController(IMemoryCache memoryCache)
+        {
+            _cache = new Cache<PlaceAnswer>(memoryCache);
+        }
+
         // GET: api/Address
         [HttpGet]
-        [ResponseCache(Duration = 3600, Location = ResponseCacheLocation.Any, VaryByQueryKeys = new string[] { "param" })]
         public ActionResult<PlaceAnswer> Get(string param)
         {
-            string url = $"http://router.project-osrm.org/table/v1/driving/{param}?annotations=distance,duration";
-            var request = new Request();
-
-            var answer = request.GetData(url);
-            var typed = JsonSerializer.Deserialize<PlaceAnswer>(answer);
-
-            return Ok(typed);
+            return Ok(getCachesMatrix(param));
         }
 
         [HttpPost]
@@ -33,18 +33,23 @@ namespace WebAPI.Controllers
             foreach (var place in places)
                 param += $"{place.Lon.ToString().Replace(',','.')},{place.Lat.ToString().Replace(',', '.')};";
 
-            return RedirectToAction("Get", new { param = param.Trim(';') });
+            return getCachesMatrix(param);
         }
 
-        //private PlaceAnswer getMatrix(string param)
-        //{
-        //    string url = $"http://router.project-osrm.org/table/v1/driving/{param}?annotations=distance,duration";
-        //    var request = new Request();
+        private PlaceAnswer getCachesMatrix(string param)
+        {
+            return _cache.GetOrCreate(param, () => getMatrix(param));
+        }
 
-        //    var answer = request.GetData(url);
-        //    var typed = JsonSerializer.Deserialize<PlaceAnswer>(answer);
+        private PlaceAnswer getMatrix(string param)
+        {
+            string url = $"http://router.project-osrm.org/table/v1/driving/{param}?annotations=distance,duration";
+            var request = new Request();
 
-        //    return typed;
-        //}
+            var answer = request.GetData(url);
+            var typed = JsonSerializer.Deserialize<PlaceAnswer>(answer);
+
+            return typed;
+        }
     }
 }

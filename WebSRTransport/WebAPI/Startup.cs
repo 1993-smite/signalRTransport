@@ -28,6 +28,8 @@ namespace WebAPI
             //services.AddMvc();
             services.AddResponseCaching();
 
+            services.AddMemoryCache();
+
             services.AddControllersWithViews(mvcOtions =>
             {
                 mvcOtions.EnableEndpointRouting = false;
