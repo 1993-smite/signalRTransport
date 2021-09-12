@@ -26,6 +26,8 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddMvc();
+            services.AddResponseCaching();
+
             services.AddControllersWithViews(mvcOtions =>
             {
                 mvcOtions.EnableEndpointRouting = false;
@@ -56,6 +58,8 @@ namespace WebAPI
             {
                 app.UseHsts();
             }
+
+            app.UseResponseCaching();
 
             // подключаем CORS
             app.UseCors(builder => builder.AllowAnyOrigin()
