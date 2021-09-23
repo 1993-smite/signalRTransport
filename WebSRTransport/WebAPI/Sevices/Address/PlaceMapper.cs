@@ -7,7 +7,7 @@ using WebAPI.Models;
 
 namespace WebAPI.Sevices.Address
 {
-    public class PlaceMapper
+    public class PlaceMapper: IMapper<Place>
     {
         private PlaceConverter _converter = new PlaceConverter();
 
@@ -16,10 +16,21 @@ namespace WebAPI.Sevices.Address
             return AddressRepository.Get(filter, count).Select(x=> _converter.toView(x));
         }
 
-        public void Save(Place place)
+        public IEnumerable<Place> Get()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Place Get(long id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public long Save(Place place)
         {
             var dbplace = _converter.toDB(place);
             AddressRepository.Save(dbplace);
+            return 1;
         }
     }
 }

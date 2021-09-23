@@ -7,7 +7,7 @@ using WebAPI.Models;
 
 namespace WebAPI.Sevices
 {
-    public class WebTaskMapper
+    public class WebTaskMapper: IMapper<WebTask>
     {
         private WebTaskConverter _converter = new WebTaskConverter();
 
@@ -18,7 +18,7 @@ namespace WebAPI.Sevices
             return tasks.Select(x => _converter.toView(x)).ToList();
         }
 
-        public WebTask Get(int id)
+        public WebTask Get(long id)
         {
             var dbtask = TaskRepository.GetTask(id);
             return _converter.toView(dbtask);
