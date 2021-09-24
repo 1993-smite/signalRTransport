@@ -13,6 +13,8 @@
     "core-js": "^3.6.5",
     "gsap": "^3.7.1",
     "jquery": "^3.6.0",
+    "material-design-icons": "file:../../../../../../Downloads/material-design-icons-3.0.1/material-design-icons-3.0.1",
+    "materialize-css": "^1.0.0",
     "moment": "^2.29.1",
     "ol": "^6.6.1",
     "signalr": "^2.4.2",

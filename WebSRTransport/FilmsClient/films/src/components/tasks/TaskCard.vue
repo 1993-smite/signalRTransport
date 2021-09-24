@@ -1,8 +1,8 @@
 <template>
-    <div class="row"
+    <div
         v-on:keyup.enter="save()"
         v-on:keyup.esc="newTask()">
-        <div class="col s12">
+        <div>
             <div class="card blue-grey darken-1">
                 <div class="card-content white-text">
                     <span class="card-title">

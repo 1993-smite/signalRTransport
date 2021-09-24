@@ -14,7 +14,6 @@
                             <th>Play List</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         <tr v-for="item in playList.list"
                             :key="item.name"
