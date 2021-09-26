@@ -38,12 +38,76 @@
                 </pre>
             </div>
         </div>
+        <div class="row">
+            <div class="input-field col s6">
+                <div class="col s12">
+                    <ul class="tabs">
+                        <li class="tab col s6">
+                            <a class="active" 
+                                href="#editor">
+                                Редактор
+                            </a>
+                        </li>
+                        <li class="tab col s6">
+                            <a href="#resultor">
+                                HTML
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div id="editor" 
+                    class="col s12">
+                    <i class="small pointer material-icons button"
+                        format="b"
+                        v-bind:class="{ disabled: !getSelection }"
+                        v-on:click="formatingText($event)"
+                        >format_bold</i>
+                    <i class="small pointer material-icons button"
+                        format="i"
+                        v-bind:class="{ disabled: !getSelection }"
+                        v-on:click="formatingText($event)"
+                        >format_italic</i>
+                    <i class="small pointer material-icons button"
+                        format="u"
+                        v-bind:class="{ disabled: !getSelection }"
+                        v-on:click="formatingText($event)"
+                        >format_color_text</i>
+                    <i class="small pointer material-icons button red-text"
+                        format="red"
+                        v-bind:class="{ disabled: !getSelection }"
+                        v-on:click="formatingText($event)"
+                        >format_paint</i>
+                    <div ref="editable"
+                        id="editable"
+                        contenteditable
+                        v-on:input="editContent($event)"
+                        v-on:keyup.enter="editContent($event, true)"
+                        style="border: 1px solid black">
+                    </div>
+                </div>
+                <div id="resultor" 
+                    class="col s12"
+                    v-html="content">
+                </div>
+            </div>
+            <div class="col s6">
+                <div
+                    v-html="content">
+
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-    import { ref, reactive } from 'vue'
+    import { ref, reactive, computed } from 'vue'
     import M from 'materialize-css'
+
+    String.prototype.replaceAll = function(search, replace){
+        return this.split(search).join(replace);
+    }
+
 
     export default {
         setup(){
@@ -117,21 +181,122 @@
                 }
             }
 
+            // editable content 
+            const editable = ref();
+            let content = reactive([]);
+            const editContent = (event)=>{
+                // event.target.innerHTML = event.target.innerHTML
+                //     .replaceAll('<div>', '')
+                //     .replaceAll('</div>', '');
+                content.value = event.target.innerHTML
+                    .replaceAll('&lt;', '<')
+                    .replaceAll('&gt;', '>').split('<br>');
+                //event.target.focus();
+            }
+            let selection = reactive({ 
+                text: window.getSelection().toString(),
+                start: 0,
+                end: 0
+            })
+            let getSelection = computed(() => selection.text.trim().length > 0 );
+            const changeSelection = (event, secondCall)=>{
+                //let el = event.target;
+                if (!secondCall){
+                    setTimeout(()=>changeSelection(event, true), 300);
+                    return;
+                }
+
+                let selVal = document.getSelection().toString();
+
+                var sel = window.getSelection();
+                var range = sel.getRangeAt(0);
+                var start = range.startOffset;
+                var end = range.endOffset;
+
+                console.log(sel, range);
+                
+                if (content.value.includes(selVal)){
+                    selection.text = document.getSelection().toString();
+                    selection.start = start;
+                    selection.end = end;
+                }
+                else {
+                    selection.text = "";
+                    selection.start = 0;
+                    selection.end = 0;
+                }
+            }
+            const formatingText = (event)=>{
+                let formating = '';
+                let text = selection.text;
+                
+                switch(event.target.getAttribute("format")){
+                    case 'b':
+                        formating = `<b>${text}</b>`;
+                        break;
+                    case 'i':
+                        formating = `<i>${text}</i>`;
+                        break;
+                    case 'u':
+                        formating = `<u>${text}</u>`;
+                        break;
+                    case 'red':
+                        formating = `<p class="red-text">${text}</p>`;
+                        break;
+                    default:
+                        console.error("not formating this action");
+                }
+
+                console.log(editable.value, formating)
+
+                
+                // content.value = content.value.substring(0, selection.start) 
+                //     + formating 
+                //     + content.value.substring(selection.end);
+                // document.getElementById(editable.value.id).textContent = content.value;
+            }
+
             return {
                 dt,
                 dt1,
                 upDt,
                 test,
                 data,
-                getData
+                
+                getData,
+                
+                content,
+                editContent,
+                selection,
+                getSelection,
+                changeSelection,
+                formatingText,
+                editable
             }
         },
         mounted(){
             M.updateTextFields();
+            
+            let tabs = document.querySelector(".tabs");
+            M.Tabs.init(tabs, {
+
+            });
+
+            let context = this;
+            window.addEventListener('mouseup', e => {
+                context.changeSelection(e, false);
+            });
+
+            //this.editable = document.querySelector("#editable");
         }
     }
 </script>
 
 <style scoped>
-
+    i.button:hover:not(.disabled){
+        background-color: burlywood;
+    }
+    i.button.disabled{
+        opacity: 0.4;
+    }
 </style>
