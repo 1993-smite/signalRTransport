@@ -87,12 +87,12 @@
                 </div>
                 <div id="resultor" 
                     class="col s12"
-                    v-html="content">
+                    v-html="contentBlock">
                 </div>
             </div>
             <div class="col s6">
                 <div
-                    v-html="content">
+                    v-html="contentBlock">
 
                 </div>
             </div>
@@ -184,14 +184,17 @@
             // editable content 
             const editable = ref();
             let content = reactive([]);
+            let contentLine = computed(()=>{
+                return content.value?.join('\n') || ""; 
+            });
+            let contentBlock = computed(()=>{
+                return content.value?.join('<br>') || ""; 
+            });
             const editContent = (event)=>{
-                // event.target.innerHTML = event.target.innerHTML
-                //     .replaceAll('<div>', '')
-                //     .replaceAll('</div>', '');
                 content.value = event.target.innerHTML
                     .replaceAll('&lt;', '<')
-                    .replaceAll('&gt;', '>').split('<br>');
-                //event.target.focus();
+                    .replaceAll('&gt;', '>')
+                    .replaceAll('</div>', '').split('<div>');
             }
             let selection = reactive({ 
                 text: window.getSelection().toString(),
@@ -208,22 +211,25 @@
 
                 let selVal = document.getSelection().toString();
 
-                var sel = window.getSelection();
-                var range = sel.getRangeAt(0);
-                var start = range.startOffset;
-                var end = range.endOffset;
+                let sel = window.getSelection();
+                let range = sel.getRangeAt(0);
+                let start = range.startOffset;
+                let end = range.endOffset;
 
-                console.log(sel, range);
-                
-                if (content.value.includes(selVal)){
+                console.log(sel, range, start, end);
+
+                if (contentLine.value.includes(selVal)){
                     selection.text = document.getSelection().toString();
                     selection.start = start;
                     selection.end = end;
+                    selection.obj = sel;
+                    selection.range = range;
                 }
                 else {
                     selection.text = "";
                     selection.start = 0;
                     selection.end = 0;
+                    
                 }
             }
             const formatingText = (event)=>{
@@ -232,16 +238,16 @@
                 
                 switch(event.target.getAttribute("format")){
                     case 'b':
-                        formating = `<b>${text}</b>`;
+                        formating = `<b>${text.replaceAll('\n','</b>\n<b>')}</b>`;
                         break;
                     case 'i':
-                        formating = `<i>${text}</i>`;
+                        formating = `<i>${text.replaceAll('\n','</i>\n<i>')}</i>`;
                         break;
                     case 'u':
-                        formating = `<u>${text}</u>`;
+                        formating = `<u>${text.replaceAll('\n','</u>\n<u>')}</u>`;
                         break;
                     case 'red':
-                        formating = `<p class="red-text">${text}</p>`;
+                        formating = `<p class="red-text">${text.replaceAll('\n','</p><p class="red-text">')}</p>`;
                         break;
                     default:
                         console.error("not formating this action");
@@ -249,7 +255,10 @@
 
                 console.log(editable.value, formating)
 
-                
+                let newContentLine = contentLine.value.substring(0, selection.start) 
+                        + formating 
+                        + contentLine.value.substring(selection.end);
+                content.value = newContentLine.split('\n');
                 // content.value = content.value.substring(0, selection.start) 
                 //     + formating 
                 //     + content.value.substring(selection.end);
@@ -266,6 +275,8 @@
                 getData,
                 
                 content,
+                contentLine,
+                contentBlock,
                 editContent,
                 selection,
                 getSelection,
