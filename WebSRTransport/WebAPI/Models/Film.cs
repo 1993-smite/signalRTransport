@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 
 namespace WebAPI.Models
 {
@@ -39,7 +36,7 @@ namespace WebAPI.Models
         public bool isNew => Id < 1;
 
         [Required(ErrorMessage = "'Название' должно быть заполнено")]
-        public string NameValid => Name;
+        public bool NameValid => !string.IsNullOrEmpty(Name);
 
         [RegularExpression("(True|true)", ErrorMessage = "'Год' должен быть в дипазоне от 1800 до 2030")]
         public bool YearValid => (Year > 1800 && Year < 2030);
