@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using FluentValidation;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebAPI.Models
 {
@@ -20,5 +17,13 @@ namespace WebAPI.Models
     {
         [Required(ErrorMessage = "'Адрес' должно быть заполнено")]
         public bool AddressValid => !string.IsNullOrEmpty(this.Address.Trim());
+    }
+
+    public class PlaceValidation : AbstractValidator<Place>
+    {
+        public PlaceValidation()
+        {
+            RuleFor(p => p.Address).NotEmpty();
+        }
     }
 }

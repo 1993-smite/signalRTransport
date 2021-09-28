@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FluentValidation;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -39,5 +40,17 @@ namespace WebAPI.Models
 
         [RegularExpression("(True|true)", ErrorMessage = "'Дата' должна быть будущей")]
         public bool DateValid => !isNew || Date > DateTime.Now.AddDays(-1);
+    }
+
+    public class WebTaskValidation: AbstractValidator<WebTask>
+    {
+        public WebTaskValidation()
+        {
+            When(t => t.Id < 1, () => {
+                RuleFor(t => t.Date).GreaterThan(DateTime.Now.AddDays(-1));
+            });
+            RuleFor(t => t.Name).NotEmpty();
+            //RuleFor(t => t.Date).GreaterThan(DateTime.Now.AddDays(-1));
+        }
     }
 }
