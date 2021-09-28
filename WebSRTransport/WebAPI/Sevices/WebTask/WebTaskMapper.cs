@@ -11,11 +11,11 @@ namespace WebAPI.Sevices
     {
         private WebTaskConverter _converter = new WebTaskConverter();
 
-        public List<WebTask> Get()
+        public IEnumerable<WebTask> Get()
         {
             var tasks = TaskRepository.GetTasks();
 
-            return tasks.Select(x => _converter.toView(x)).ToList();
+            return tasks.Select(x => _converter.toView(x));
         }
 
         public WebTask Get(long id)
