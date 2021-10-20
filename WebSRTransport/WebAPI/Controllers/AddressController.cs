@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
+using Clasterization;
+using Clasterization.Location;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
@@ -21,7 +24,7 @@ namespace WebAPI.Controllers
             return Ok(_mapper.Get(filter, count));
         }
 
-        // POST: api/WebTasks
+        // POST: api/Address
         [HttpPost]
         public ActionResult<long> Post([FromBody] PlaceValid place)
         {
