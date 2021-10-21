@@ -14,12 +14,44 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ClusterizeController : ControllerBase
     {
+        //[HttpPost]
+        //public ActionResult<Cluster<GeographicPoint>> Post([FromBody] ClusterizeParam param)
+        //{
+        //    var clusterizer = new Clusterization<CartesianPoint>();
+            
+        //    var geographic = new List<GeographicPoint>();
+        //    var xy = new List<CartesianPoint>();
+        //    for(int i = 0; i < param.Places.Length; i++)
+        //    {
+        //        var place = param.Places[i];
+        //        var geographicPoint = new GeographicPoint(i + 1, (double)place.Lat, (double)place.Lon);
+        //        geographic.Add(geographicPoint);
+        //        xy.Add(geographicPoint.toCartesian());
+        //    }
+
+        //    var clusters = clusterizer
+        //        .Clusterize(xy, param.Count);
+        //    var geographicClusters = new List<Cluster<GeographicPoint>>();
+        //    foreach (var cluster in clusters)
+        //    {
+        //        geographicClusters.Add(new Cluster<GeographicPoint>()
+        //        {
+        //            Items = cluster.Items.Select(x => geographic.FirstOrDefault(p => p.Id == x.Id)).ToList()
+        //        });
+        //    }
+
+        //    var res = geographicClusters.Select(x => new ClusterView(x));
+        //    return Ok(res);
+        //}
+
         [HttpPost]
-        public ActionResult<Cluster<GeographicPoint>> Clusterize(List<Place> places, int count)
+        public ActionResult<Cluster<GeographicPoint>> Post([FromBody] ClusterizeParam param)
         {
             var clusterizer = new Clusterization<GeographicPoint>();
-            var clusters = clusterizer.Clusterize(places.Select(x => new GeographicPoint((double)x.Lat, (double)x.Lon)), count);
-            return Ok(clusters.Select(x=>new ClusterView(x)));
+            var clusters = clusterizer
+                .Clusterize(param.Places.Select(x=>new GeographicPoint(0,(double)x.Lat, (double)x.Lon)), param.Count);
+            var res = clusters.Select(x => new ClusterView(x));
+            return Ok(res);
         }
     }
 }
