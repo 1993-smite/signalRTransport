@@ -10,7 +10,7 @@ using WebAPI.Models;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class ClusterizeController : ControllerBase
     {
@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
         //}
 
         [HttpPost]
-        public ActionResult<Cluster<GeographicPoint>> Post([FromBody] ClusterizeParam param)
+        public ActionResult<Cluster<GeographicPoint>> AccordKMeans([FromBody] ClusterizeParam param)
         {
             var clusterizer = new Clusterization<GeographicPoint>();
             var clusters = clusterizer
