@@ -34,10 +34,15 @@
 
             <Toggle>
               <template v-slot:title>
-                <h5>Адреса</h5>
+                <h5>Адреса</h5> 
               </template>
               <template v-slot:default>
+                
                 <div id="geo-location">
+                  <i 
+                    class="small material-icons s1 pointer"
+                    style="float:right; color: red"
+                    v-on:click="clusterize()">line_style</i>
                   <table class="striped highlight">
                     <thead>
                       <tr>
@@ -80,6 +85,7 @@ import MapView from '../components/map/MapView.vue'
 import MapPanel from '../components/map/MapPanel.vue'
 import Toggle from '../components/common/Toggle.vue'
 import OSMLib from '@/libs/osm'
+import clusterization from '@/libs/db'
 
 export default {
   name: 'MapWorker',
@@ -128,6 +134,9 @@ export default {
             }
         },
         '-' // this is a separator
+      ],
+      colors: [
+        'blue', 'red', 'black', 'green', 'yellow'
       ]
     }
   },
@@ -145,13 +154,14 @@ export default {
           location.coord.lon,
           location.coord.lat
         ],
+        color: location.color || undefined,
         text: `${this.points.length + 1}`,
       };
       this.points.push(point);
       this.setCenter(point.coord);
     },
     addLocationPath: function(location){
-      //this.path.push([location.coord.lon, location.coord.lat]);
+      this.path.push([location.coord.lon, location.coord.lat]);
       this.addPointPath(location);
     },
     addPointPath: function(location){
@@ -180,6 +190,17 @@ export default {
     },
     addGeoLocation: function(geoLocation){
       this.geolocations.push(geoLocation);
+    },
+    ...clusterization,
+    clusterize: async function(){
+      let locations = await this.clusterization(this.geolocations);
+
+      for(let location of locations){
+        this.addPoint({
+          coord: { lat: location.lat, lon: location.lon },
+          color: this.colors[location.cluster]
+        });
+      }
     }
   },
   mounted(){
