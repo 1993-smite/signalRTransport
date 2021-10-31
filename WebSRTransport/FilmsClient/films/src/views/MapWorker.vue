@@ -39,10 +39,20 @@
               <template v-slot:default>
                 
                 <div id="geo-location">
-                  <i 
-                    class="small material-icons s1 pointer"
-                    style="float:right; color: red"
-                    v-on:click="clusterize()">line_style</i>
+                  <div class="row">
+                    <!-- <div class="input-field col s5">
+                      <input id="count" type="number">
+                      <label for="count">Кластеров</label>
+                    </div> -->
+                    <a class="waves-effect waves-light btn"
+                      v-on:click="clusterize(0)">KMeans</a>
+                    <a class="waves-effect waves-light btn"
+                      v-on:click="clusterize(1)">Binary</a>
+                    <a class="waves-effect waves-light btn"
+                      v-on:click="clusterize(2)">Mean</a>
+                    <a class="waves-effect waves-light btn"
+                      v-on:click="clusterize(3)">Gausian</a>
+                  </div>
                   <table class="striped highlight">
                     <thead>
                       <tr>
@@ -137,6 +147,12 @@ export default {
       ],
       colors: [
         'blue', 'red', 'black', 'green', 'yellow'
+      ],
+      urls: [
+        'http://localhost:9999/api/Clusterize/AccordKMeans',
+        'http://localhost:9999/api/Clusterize/AccordBinarySplit',
+        'http://localhost:9999/api/Clusterize/AccordMeanSplit',
+        'http://localhost:9999/api/Clusterize/AccordGausian',
       ]
     }
   },
@@ -192,8 +208,8 @@ export default {
       this.geolocations.push(geoLocation);
     },
     ...clusterization,
-    clusterize: async function(){
-      let locations = await this.clusterization(this.geolocations);
+    clusterize: async function(index){
+      let locations = await this.clusterization(this.urls[index],this.geolocations);
 
       for(let location of locations){
         this.addPoint({

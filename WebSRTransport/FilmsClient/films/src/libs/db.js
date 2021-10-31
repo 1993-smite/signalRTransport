@@ -5,7 +5,6 @@ export default {
 
 const axios = require('axios')
 const urlAddress = 'http://localhost:9999/api/Address';
-const urlClusterize = 'http://localhost:9999/api/Clusterize/AccordKMeans';
 
 async function saveGeolocation(geoLocation){
     let rer = 323;
@@ -14,8 +13,8 @@ async function saveGeolocation(geoLocation){
     });
 }
 
-async function clusterization(geoLocations){
-    let response = await axios.post(urlClusterize, 
+async function clusterization(url,geoLocations){
+    let response = await axios.post(url, 
         {
             "Places": geoLocations,
             "Count": 3
