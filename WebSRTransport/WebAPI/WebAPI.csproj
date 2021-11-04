@@ -26,6 +26,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Location\Clasterization\Clasterization.csproj" />
     <ProjectReference Include="..\..\..\Merge\MergeProject\DB\DB.csproj" />
+    <ProjectReference Include="..\DBDapper\DBDapper.csproj" />
   </ItemGroup>
 
 </Project>
