@@ -11,6 +11,7 @@ namespace DBDapper.Repositories
 {
     public static class Schema
     {
+        public static string Table => "EMPLOYEE";
         public static string Id => "EMP_ID";
         public static string LastName => "LAST_NAME";
         public static string FirstName => "FIRST_NAME";
@@ -29,7 +30,7 @@ namespace DBDapper.Repositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = $"INSERT INTO Employee (" +
+                var sqlQuery = $"INSERT INTO {Schema.Table} (" +
                     $"{Schema.Id}" +
                     $",{Schema.LastName}" +
                     $",{Schema.FirstName}" +
@@ -50,14 +51,14 @@ namespace DBDapper.Repositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                return db.Query<Employee>($"SELECT * FROM Employees WHERE {Schema.Id} = @id", new { id }).FirstOrDefault();
+                return db.Query<Employee>($"SELECT * FROM {Schema.Table} WHERE {Schema.Id} = @id", new { id }).FirstOrDefault();
             }
         }
         public override IEnumerable<Employee> GetList()
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                return db.Query<Employee>("SELECT * FROM Employees").ToList();
+                return db.Query<Employee>($"SELECT * FROM {Schema.Table}").ToList();
             }
         }
         public override void Update(Employee user)

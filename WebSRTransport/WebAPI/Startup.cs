@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DBDapper;
+using DBDapper.Models;
+using DBDapper.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +29,8 @@ namespace WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             //services.AddMvc();
+            ConfigureServicesDB(services);
+
             services.AddResponseCaching();
 
             services.AddMemoryCache();
@@ -39,7 +44,13 @@ namespace WebAPI
             services.AddSwaggerGen();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void ConfigureServicesDB(IServiceCollection services)
+        {
+            string connectionString = "Server=DOSTZAL;Initial Catalog=Test;Integrated Security=True";
+            services.AddTransient<IDapperRepository<Employee>, EmployeeRepository>(provider => new EmployeeRepository(connectionString));
+        }
+
+            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             // Enable middleware to serve generated Swagger as a JSON endpoint.
