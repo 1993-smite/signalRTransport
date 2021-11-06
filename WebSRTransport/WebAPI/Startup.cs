@@ -46,7 +46,8 @@ namespace WebAPI
 
         public void ConfigureServicesDB(IServiceCollection services)
         {
-            string connectionString = "Server=DOSTZAL;Initial Catalog=Test;Integrated Security=True";
+            string connectionString = Configuration.GetValue<string>("SQL_SERVER.Test");
+
             services.AddTransient<IDapperRepository<Employee>, EmployeeRepository>(provider => new EmployeeRepository(connectionString));
         }
 
