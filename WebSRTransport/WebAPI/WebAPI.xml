@@ -1,0 +1,141 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>WebAPI</name>
+    </assembly>
+    <members>
+        <member name="M:WebAPI.Controllers.AddressController.Get(System.String,System.Int32)">
+            <summary>
+            получение списка мест
+            </summary>
+            <param name="filter">фильтр по имени</param>
+            <param name="count">фильтр по количеству</param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.AddressController.Post(WebAPI.Models.PlaceValid)">
+            <summary>
+            сохранение места
+            </summary>
+            <param name="place"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.WebTasksController.Get">
+            <summary>
+            получение списка тасков
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.WebTasksController.Get(System.Int32)">
+            <summary>
+            получение одного таска
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Controllers.WebTasksController.Post(WebAPI.Models.WebTaskValid)">
+            <summary>
+            сохранение таска с валидацией
+            </summary>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="T:WebAPI.Models.FilmState">
+            <summary>
+            state of film task
+            </summary>
+        </member>
+        <member name="T:WebAPI.Models.Film">
+            <summary>
+            film classs
+            </summary>
+        </member>
+        <member name="T:WebAPI.Models.FilmValid">
+            <summary>
+            validation of films
+            </summary>
+        </member>
+        <member name="T:WebAPI.Models.FilmType">
+            <summary>
+            type of film (comedy, dramma, triller)
+            </summary>
+        </member>
+        <member name="T:WebAPI.Models.Place">
+            <summary>
+            model of address
+            </summary>
+        </member>
+        <member name="T:WebAPI.Models.WebTask">
+            <summary>
+            class for web task
+            </summary>
+        </member>
+        <member name="T:WebAPI.Models.WebTaskStatus">
+            <summary>
+            web task status
+            </summary>
+        </member>
+        <member name="T:WebAPI.Models.WebTaskValid">
+            <summary>
+            validation for web task
+            </summary>
+        </member>
+        <member name="M:WebAPI.Services.Converter`2.toDB(`1)">
+            <summary>
+            convert view model to db model
+            </summary>
+            <param name="from"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Services.Converter`2.toView(`0)">
+            <summary>
+            convert db model to view model
+            </summary>
+            <param name="from"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Services.FilmMapper.GetFilms(System.Int32,System.Int32,System.String,System.Int32,System.Int32)">
+            <summary>
+            get films by params
+            </summary>
+            <param name="page"></param>
+            <param name="pageCount"></param>
+            <param name="name"></param>
+            <param name="year"></param>
+            <param name="byType"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Services.FilmMapper.GetFilm(System.Int32)">
+            <summary>
+            get film by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Services.FilmMapper.DeleteFilm(System.Int32)">
+            <summary>
+            delete film by id
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="M:WebAPI.Services.FilmMapper.SaveFilm(WebAPI.Models.Film)">
+            <summary>
+            save film
+            </summary>
+            <param name="film"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Services.FilmTypeMapper.Get(System.Int32)">
+            <summary>
+            get film type by id
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Services.FilmTypeMapper.Get">
+            <summary>
+            get list
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

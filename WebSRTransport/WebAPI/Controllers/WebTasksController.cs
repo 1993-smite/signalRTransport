@@ -16,12 +16,21 @@ namespace WebAPI.Controllers
         private WebTaskMapper _mapper = new WebTaskMapper();
 
         // GET: api/WebTasks
+        /// <summary>
+        /// получение списка тасков
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public ActionResult<IEnumerable<WebTask>> Get()
         {
             return Ok(_mapper.Get());
         }
 
+        /// <summary>
+        /// получение одного таска
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: api/WebTasks/5
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<WebTask> Get(int id)
@@ -29,6 +38,11 @@ namespace WebAPI.Controllers
             return Ok(_mapper.Get(id));
         }
 
+        /// <summary>
+        /// сохранение таска с валидацией
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
         // POST: api/WebTasks
         [HttpPost]
         public ActionResult<long> Post([FromBody] WebTaskValid task)

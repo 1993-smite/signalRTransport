@@ -17,6 +17,12 @@ namespace WebAPI.Controllers
     {
         private PlaceMapper _mapper = new PlaceMapper();
 
+        /// <summary>
+        /// получение списка мест
+        /// </summary>
+        /// <param name="filter">фильтр по имени</param>
+        /// <param name="count">фильтр по количеству</param>
+        /// <returns></returns>
         // GET: api/Address
         [HttpGet]
         public ActionResult<IEnumerable<Place>> Get(string filter = "", int count = 10)
@@ -24,6 +30,11 @@ namespace WebAPI.Controllers
             return Ok(_mapper.Get(filter, count));
         }
 
+        /// <summary>
+        /// сохранение места
+        /// </summary>
+        /// <param name="place"></param>
+        /// <returns></returns>
         // POST: api/Address
         [HttpPost]
         public ActionResult<long> Post([FromBody] PlaceValid place)
