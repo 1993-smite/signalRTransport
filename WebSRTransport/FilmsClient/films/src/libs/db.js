@@ -13,11 +13,11 @@ async function saveGeolocation(geoLocation){
     });
 }
 
-async function clusterization(url,geoLocations){
+async function clusterization(url,geoLocations, count=3){
     let response = await axios.post(url, 
         {
             "Places": geoLocations,
-            "Count": 3
+            "Count": count
         });
     let data = response.data;
     console.log(data);

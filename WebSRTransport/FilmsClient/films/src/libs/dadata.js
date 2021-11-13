@@ -1,6 +1,7 @@
 export default {
     fetchData,
-    getAddress
+    getAddress,
+    getCoord
 }
 
 /**
@@ -35,11 +36,10 @@ async function getAddress(lat, lon){
  * @param {*} address 
  * @returns 
  */
-async function fetchData (address){
+async function getData (address){
     let url = "https://suggestions.dadata.ru/suggestions/api/4_1/rs/suggest/address";
     let token = "9d035861f269ba41c82ce284ab4afd3b3979ba93";
     let secret = "705eccbd748bfd6ff04613e04e833a8c6c676262"
-    let vals;
     var options = {
         method: "POST",
         mode: "cors",
@@ -61,6 +61,28 @@ async function fetchData (address){
     }
     let response = await fetch(url, options)
     let result = await response.json();
-    vals = result.suggestions.map(x=>x.value);
+
+    return result;
+}
+
+/**
+ * 
+ * @param {*} address 
+ * @returns 
+ */
+ async function fetchData (address){
+    let result = await getData(address);
+    let vals = result.suggestions.map(x=>x.value);
+    return vals;
+}
+
+/**
+ * 
+ * @param {*} address 
+ * @returns 
+ */
+ async function getCoord (address){
+    let result = await getData(address);
+    let vals = result.suggestions.find(x=>x.value === address);
     return vals;
 }
