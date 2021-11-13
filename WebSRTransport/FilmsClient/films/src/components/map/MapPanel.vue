@@ -8,6 +8,9 @@
         <li class="tab col s3">
           <a href="#test-swipe-2">Маршруты</a>
         </li>
+        <li class="tab col s3">
+          <a href="#test-swipe-3">Машины</a>
+        </li>
       </ul>
       <div id="test-swipe-1" class="col s12">
         <div class="col s9">
@@ -35,6 +38,14 @@
             :id="'path' + index"
             v-on:change="changeLocationPath" />
           <label :for="'path' + index">Точка №{{index+1}}</label>
+        </div>
+      </div>
+      <div id="test-swipe-3" class="col s12">
+        <div class="input-field">
+          <Location 
+            id="pathMap"
+            v-on:changeLocation="changeGeoLocation" />
+          <label for="pathMap">Адрес</label>
         </div>
       </div>
     </div>
@@ -84,6 +95,11 @@ export default {
         this.$emit('addLocationPath', location);
       }
       return;
+    },
+    changeGeoLocation: function(location){
+      location.lat = location.coord[1];
+      location.lon = location.coord[0];
+      this.$emit('addGeoLocation', location);
     }
   },
   mounted(){

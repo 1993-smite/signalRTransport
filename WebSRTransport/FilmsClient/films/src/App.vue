@@ -69,8 +69,8 @@ export default {
   color: #2c3e50;
 }
 .container {
-    max-width: 1580px;
-    width: 96% !important;
+    max-width: 98%;
+    width: 98% !important;
 }
 .brand-logo{
   position: relative;
@@ -92,5 +92,9 @@ export default {
 }
 [v-cloak]{
   display: none;
+}
+.col .row{
+  margin-left: 7px;
+  margin-right: 7px;
 }
 </style>

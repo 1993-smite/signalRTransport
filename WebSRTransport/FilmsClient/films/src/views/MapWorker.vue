@@ -1,7 +1,7 @@
 <template>
     <div class="row" v-cloak>
         <div class="col s7">
-            <h5>Карта</h5>
+            <h6>Карта</h6>
             <MapView 
               :CirclePoints="points"
               :Path="pathLine"
@@ -11,13 +11,11 @@
               v-on:clickFeature="checkFeature"
               v-on:addGeoLocation="addGeoLocation" />
         </div>
-        <div class="col s1">
-        </div>
-        <div class="col s4 two">
+        <div class="col s5 two">
         
             <Toggle>
               <template v-slot:title>
-                <h5>Рабочая панель</h5>
+                <h6>Рабочая панель</h6>
               </template>
               <template v-slot:default>
                 <i 
@@ -25,8 +23,9 @@
                   style="float:right; color: red"
                   v-on:click="clearFeatures()">clear_all</i>
                 <MapPanel 
-                  :coordinates="coords" 
+                  :coordinates="coords"
                   :path="pathLine.path"
+                  v-on:addGeoLocation="addGeoLocation"
                   v-on:addLocation="addLocation"
                   v-on:addLocationPath="addLocationPath" />
               </template>
@@ -34,43 +33,56 @@
 
             <Toggle>
               <template v-slot:title>
-                <h5>Адреса</h5> 
+                <h6>Адреса</h6> 
               </template>
               <template v-slot:default>
                 
-                <div id="geo-location">
+                <div>
                   <div class="row">
                     <!-- <div class="input-field col s5">
                       <input id="count" type="number">
                       <label for="count">Кластеров</label>
                     </div> -->
-                    <a class="waves-effect waves-light btn"
-                      v-on:click="clusterize(0)">KMeans</a>
-                    <a class="waves-effect waves-light btn"
-                      v-on:click="clusterize(1)">Binary</a>
-                    <a class="waves-effect waves-light btn"
-                      v-on:click="clusterize(2)">Mean</a>
-                    <a class="waves-effect waves-light btn"
-                      v-on:click="clusterize(3)">Gausian</a>
+                    <div class="col s8">
+                      <a class="waves-effect waves-light btn"
+                        v-on:click="clusterize(0)">KMeans</a>
+                      <a class="waves-effect waves-light btn"
+                        v-on:click="clusterize(1)">Binary</a>
+                      <a class="waves-effect waves-light btn"
+                        v-on:click="clusterize(2)">Mean</a>
+                      <a class="waves-effect waves-light btn"
+                        v-on:click="clusterize(3)">Gausian</a>
+                    </div>
+                    <div class="col s2">
+                      <div class="input-field inline">
+                        <input id="email_inline" 
+                          type="number" 
+                          class="validate" 
+                          v-model="countClusters">
+                      </div>
+                    </div>
                   </div>
-                  <table class="striped highlight">
-                    <thead>
-                      <tr>
-                          <th>Адрес</th>
-                          <th>Широта</th>
-                          <th>Долгота</th>
-                      </tr>
-                    </thead>
+                  <div id="geo-location">
+                    <table class="striped highlight">
+                      <thead>
+                        <tr>
+                            <th>Адрес</th>
+                            <th>Широта</th>
+                            <th>Долгота</th>
+                        </tr>
+                      </thead>
 
-                    <tbody>
-                      <tr v-for="item in geolocations"
-                        v-bind:key="item.address">
-                        <td>{{item.address}}</td>
-                        <td>{{item.lat}}</td>
-                        <td>{{item.lon}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                      <tbody>
+                        <tr v-for="item in geolocations"
+                          v-bind:key="item.address">
+                          <td>{{item.address}}</td>
+                          <td>{{item.lat}}</td>
+                          <td>{{item.lon}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  
                 </div>
               </template>
             </Toggle>
@@ -115,6 +127,7 @@ export default {
       },
       center: center,
       geolocations: [],
+      countClusters: 3,
       contextMenuItems: [{
             text: 'Center map here',
             callback: (val) => {
@@ -146,13 +159,13 @@ export default {
         '-' // this is a separator
       ],
       colors: [
-        'blue', 'red', 'black', 'green', 'yellow'
+        'blue', 'red', 'black', 'green', 'yellow','white','brown'
       ],
       urls: [
-        'http://localhost:9999/api/Clusterize/AccordKMeans',
-        'http://localhost:9999/api/Clusterize/AccordBinarySplit',
-        'http://localhost:9999/api/Clusterize/AccordMeanSplit',
-        'http://localhost:9999/api/Clusterize/AccordGausian',
+        'https://localhost:44349/api/Clusterize/AccordKMeans',
+        'https://localhost:44349/api/Clusterize/AccordBinarySplit',
+        'https://localhost:44349/api/Clusterize/AccordMeanSplit',
+        'https://localhost:44349/api/Clusterize/AccordGausian',
       ]
     }
   },
@@ -209,7 +222,7 @@ export default {
     },
     ...clusterization,
     clusterize: async function(index){
-      let locations = await this.clusterization(this.urls[index],this.geolocations);
+      let locations = await this.clusterization(this.urls[index],this.geolocations, +this.countClusters);
 
       for(let location of locations){
         this.addPoint({
@@ -227,7 +240,17 @@ export default {
 
 <style scoped>
   #geo-location{
-    max-height: 600px;
+    max-height: 400px;
     overflow-y: auto;
+  }
+  .input-field {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  .row{
+    margin-bottom: 0px;
+  }
+  td{
+    padding: 5px;
   }
 </style>

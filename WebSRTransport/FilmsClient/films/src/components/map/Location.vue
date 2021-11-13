@@ -33,6 +33,24 @@ export default {
       instance: {}
     }
   },
+  watch: {
+    address: async function(value){
+      if (this.isOSM){
+        let res = await DaData.getCoord(value);
+        try{
+          this.lat = +res.data.geo_lat;
+          this.lon = +res.data.geo_lon;
+
+          this.$emit('changeLocation', { address: value, coord: [ this.lon, this.lat ] });
+        }
+        catch(e){
+          this.invalid = true;
+          console.error(e);
+          return;
+        }
+      }
+    }
+  },
   methods: {
     checkAddress: async function(){
       let lat = 37.511154 + Math.random() / 100;
@@ -52,7 +70,7 @@ export default {
 
       let result = [coords[0], coords[1]]; //await getCoordinateByAddress(this.address);
       this.saveAddress(this.address, result);
-      this.$emit('change', { address: this.address, coord: { lat: result[1], lon: result[0] } });
+      this.$emit('changeLocation', { address: this.address, coord: { lat: result[1], lon: result[0] } });
     },
     saveAddress: async function(address, coord){
       let geo = new GeoLocation(address, coord[1], coord[0]);

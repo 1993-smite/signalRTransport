@@ -102,7 +102,7 @@ export default {
   data: ()=>{
     return {
       projection: 'EPSG:4326',
-      zoom: 10,
+      zoom: 12,
       rotation: 0,
       styles: {
         radius: 10,
