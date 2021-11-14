@@ -14,38 +14,42 @@ namespace WebAPI.Controllers
     [ApiController]
     public class ClusterizeController : ControllerBase
     {
-        private IEnumerable<ClusterView> clusterize(Clusterization<GeographicPoint> clusterizer, ClusterizeParam param)
+        public readonly CartesianPoint Base = new GeographicPoint(0, 55.77162551879, 37.7147102355).toCartesian();
+        private IEnumerable<ClusterView> clusterize(Clusterization<RelativeGeographicPoint> clusterizer, ClusterizeParam param)
         {
+            var pnts = param
+                    .Places
+                    .Select(x => new RelativeGeographicPoint(Base, new GeographicPoint(0, (double)x.Lat, (double)x.Lon)));
             var clusters = clusterizer
-                .Clusterize(param.Places.Select(x => new GeographicPoint(0, (double)x.Lat, (double)x.Lon)), param.Count);
+                .Clusterize(pnts, param.Count);
             return clusters.Select(x => new ClusterView(x));
         }
 
         [HttpPost]
         public ActionResult<Cluster<GeographicPoint>> AccordKMeans([FromBody] ClusterizeParam param)
         {
-            var clusterizer = new Clusterization<GeographicPoint>(ClusterizationMode.Kmeans);
+            var clusterizer = new Clusterization<RelativeGeographicPoint>(ClusterizationMode.Kmeans);
             return Ok(clusterize(clusterizer, param));
         }
 
         [HttpPost]
         public ActionResult<Cluster<GeographicPoint>> AccordBinarySplit([FromBody] ClusterizeParam param)
         {
-            var clusterizer = new Clusterization<GeographicPoint>(ClusterizationMode.BinarySplit);
+            var clusterizer = new Clusterization<RelativeGeographicPoint>(ClusterizationMode.BinarySplit);
             return Ok(clusterize(clusterizer, param));
         }
 
         [HttpPost]
         public ActionResult<Cluster<GeographicPoint>> AccordMeanSplit([FromBody] ClusterizeParam param)
         {
-            var clusterizer = new Clusterization<GeographicPoint>(ClusterizationMode.MeanSplit);
+            var clusterizer = new Clusterization<RelativeGeographicPoint>(ClusterizationMode.MeanSplit);
             return Ok(clusterize(clusterizer, param));
         }
 
         [HttpPost]
         public ActionResult<Cluster<GeographicPoint>> AccordGausian([FromBody] ClusterizeParam param)
         {
-            var clusterizer = new Clusterization<GeographicPoint>(ClusterizationMode.Gausian);
+            var clusterizer = new Clusterization<RelativeGeographicPoint>(ClusterizationMode.Gausian);
             return Ok(clusterize(clusterizer, param));
         }
     }

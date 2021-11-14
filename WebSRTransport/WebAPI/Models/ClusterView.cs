@@ -14,6 +14,11 @@ namespace WebAPI.Models
             Points = cluster.Items.Select(x => new Place() { Lat = (decimal)x.Lat, Lon = (decimal)x.Lon });
         }
 
+        public ClusterView(Cluster<RelativeGeographicPoint> cluster)
+        {
+            Points = cluster.Items.Select(x => new Place() { Lat = (decimal)x.GeographicPoint().Lat, Lon = (decimal)x.GeographicPoint().Lon });
+        }
+
         public ClusterView(Cluster<CartesianPoint> cluster)
         {
             var points = new List<Place>();
