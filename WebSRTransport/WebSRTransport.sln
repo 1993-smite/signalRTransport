@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPITest", "WebAPITest\We
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clasterization", "..\..\Location\Clasterization\Clasterization.csproj", "{49A2E6C7-A908-443D-B8E1-B4F191828FDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBDapper", "DBDapper\DBDapper.csproj", "{2F11907D-0881-4935-89F7-F69E960B0E8E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBDapper", "DBDapper\DBDapper.csproj", "{2F11907D-0881-4935-89F7-F69E960B0E8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
