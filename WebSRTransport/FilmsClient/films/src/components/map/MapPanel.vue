@@ -47,6 +47,15 @@
             v-on:changeLocation="changeGeoLocation" />
           <label for="pathMap">Адрес</label>
         </div>
+        <div class="input-field">
+          <textarea name="" 
+            class="materialize-textarea"
+            id="" 
+            rows="10"
+            v-model="paths"
+            v-on:blur="changePaths()"></textarea>
+          <label for="pathMaps">Адреса</label>
+        </div>
       </div>
     </div>
 </template>
@@ -54,12 +63,13 @@
 <script>
 import M from 'materialize-css'
 import Location from './Location'
+import Dadata from '../../libs/dadata'
 
 export default {
   name: 'MapPanel',
   props:{
     coordinates: Array,
-    path: Array
+    path: Array,
   },
   components: {
     Location
@@ -67,6 +77,7 @@ export default {
   data: ()=>{
     return {
       countLocation: [],
+      paths: ""
     }
   },
   methods: {
@@ -100,6 +111,21 @@ export default {
       location.lat = location.coord[1];
       location.lon = location.coord[0];
       this.$emit('addGeoLocation', location);
+    },
+    changePaths: async function(){
+      let lines = this.paths.split('\n');
+      for (const line of lines) {
+        let lnCoord = await Dadata.getCoord(line);
+
+        if (lnCoord){
+          this.changeGeoLocation({
+            address: line,
+            lat: +lnCoord.data.geo_lat,
+            lon: +lnCoord.data.geo_lon,
+            coord: [+lnCoord.data.geo_lon, +lnCoord.data.geo_lat]
+          });
+        }
+      }
     }
   },
   mounted(){

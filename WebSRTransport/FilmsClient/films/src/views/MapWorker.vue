@@ -162,10 +162,10 @@ export default {
         'blue', 'red', 'black', 'green', 'yellow','white','brown'
       ],
       urls: [
-        'https://localhost:44349/api/Clusterize/AccordKMeans',
-        'https://localhost:44349/api/Clusterize/AccordBinarySplit',
-        'https://localhost:44349/api/Clusterize/AccordMeanSplit',
-        'https://localhost:44349/api/Clusterize/AccordGausian',
+        'http://localhost:9999/api/Clusterize/AccordKMeans',
+        'http://localhost:9999/api/Clusterize/AccordBinarySplit',
+        'http://localhost:9999/api/Clusterize/AccordMeanSplit',
+        'http://localhost:9999/api/Clusterize/AccordGausian',
       ]
     }
   },

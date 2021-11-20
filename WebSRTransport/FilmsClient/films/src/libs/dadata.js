@@ -51,12 +51,12 @@ async function getData (address){
         },
         body: JSON.stringify({
             query: address, 
-            locations: [
-                {
-                    "region": "Москва",
-                    "fias_level": 9
-                }
-            ],
+            // locations: [
+            //     {
+            //         "region": "Москва",
+            //         "fias_level": 9
+            //     }
+            // ],
             count: 10})
     }
     let response = await fetch(url, options)
