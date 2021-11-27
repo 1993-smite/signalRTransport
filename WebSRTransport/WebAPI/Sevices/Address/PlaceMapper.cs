@@ -1,4 +1,4 @@
-﻿using DB.Repositories;
+﻿using DB.Repositories.Address;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +7,18 @@ using WebAPI.Models;
 
 namespace WebAPI.Sevices.Address
 {
-    public class PlaceMapper: IMapper<Place>
+    public class PlaceMapper : IMapper<Place>
     {
-        private PlaceConverter _converter = new PlaceConverter();
+        private Lazy<AddressRepository> _rep = new Lazy<AddressRepository>(()=> new AddressRepository());
+        AddressRepository AddressRepository => _rep.Value;
+
+        private Lazy<PlaceConverter> _converter = new Lazy<PlaceConverter>(() => new PlaceConverter());
+        PlaceConverter PlaceConverter => _converter.Value;
+
 
         public IEnumerable<Place> Get(string filter = "", int count = 10)
         {
-            return AddressRepository.Get(filter, count).Select(x=> _converter.toView(x));
+            return AddressRepository.GetList(new AddressFilter(filter, count)).Select(x=> PlaceConverter.toView(x));
         }
 
         public IEnumerable<Place> Get()
@@ -28,8 +33,8 @@ namespace WebAPI.Sevices.Address
 
         public long Save(Place place)
         {
-            var dbplace = _converter.toDB(place);
-            AddressRepository.Save(dbplace);
+            var dbplace = PlaceConverter.toDB(place);
+            AddressRepository.SaveTransaction(dbplace);
             return 1;
         }
     }

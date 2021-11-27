@@ -4,7 +4,7 @@ using WebAPI.Services;
 
 namespace WebAPI.Sevices
 {
-    public class PlaceConverter : Converter<DBAddress, Place>
+    public class PlaceConverter : IConverter<DBAddress, Place>
     {
         public PlaceConverter()
         {

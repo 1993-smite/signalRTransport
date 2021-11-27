@@ -3,7 +3,7 @@ using DB.DBModels;
 
 namespace WebAPI.Services
 {
-    public class FilmTypeConverter : Converter<DBFilmType, FilmType>
+    public class FilmTypeConverter : IConverter<DBFilmType, FilmType>
     {
         public DBFilmType toDB(FilmType from)
         {

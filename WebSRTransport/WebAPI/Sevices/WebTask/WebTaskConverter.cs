@@ -4,7 +4,7 @@ using WebAPI.Services;
 
 namespace WebAPI.Sevices
 {
-    public class WebTaskConverter : Converter<DBTask, WebTask>
+    public class WebTaskConverter : IConverter<DBTask, WebTask>
     {
         public WebTaskConverter()
         {

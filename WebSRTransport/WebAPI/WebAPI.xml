@@ -79,20 +79,6 @@
             validation for web task
             </summary>
         </member>
-        <member name="M:WebAPI.Services.Converter`2.toDB(`1)">
-            <summary>
-            convert view model to db model
-            </summary>
-            <param name="from"></param>
-            <returns></returns>
-        </member>
-        <member name="M:WebAPI.Services.Converter`2.toView(`0)">
-            <summary>
-            convert db model to view model
-            </summary>
-            <param name="from"></param>
-            <returns></returns>
-        </member>
         <member name="M:WebAPI.Services.FilmMapper.GetFilms(System.Int32,System.Int32,System.String,System.Int32,System.Int32)">
             <summary>
             get films by params
@@ -135,6 +121,20 @@
             <summary>
             get list
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Services.IConverter`2.toDB(`1)">
+            <summary>
+            convert view model to db model
+            </summary>
+            <param name="from"></param>
+            <returns></returns>
+        </member>
+        <member name="M:WebAPI.Services.IConverter`2.toView(`0)">
+            <summary>
+            convert db model to view model
+            </summary>
+            <param name="from"></param>
             <returns></returns>
         </member>
     </members>

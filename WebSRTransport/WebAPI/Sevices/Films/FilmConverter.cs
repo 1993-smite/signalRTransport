@@ -5,7 +5,7 @@ using DB.DBModels;
 
 namespace WebAPI.Services
 {
-    public class FilmConverter: Converter<DBFilm, Film>
+    public class FilmConverter: IConverter<DBFilm, Film>
     {
         private List<FilmType> _types = new List<FilmType>();
 
