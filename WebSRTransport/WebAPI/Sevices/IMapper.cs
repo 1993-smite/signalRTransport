@@ -1,14 +1,13 @@
-﻿using System;
+﻿using DB.Repositories;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics.CodeAnalysis;
 
 namespace WebAPI.Sevices
 {
-    interface IMapper<TModel>
+    public interface IMapper<TModel, TFilter> where TFilter: Filter
     {
-        public IEnumerable<TModel> Get();
-        public TModel Get(long id);
+        public IEnumerable<TModel> GetList(TFilter filter = default(TFilter));
+        public TModel Get([NotNull]TFilter filter);
         public long Save(TModel task);
     }
 }

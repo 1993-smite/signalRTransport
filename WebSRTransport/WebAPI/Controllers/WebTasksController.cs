@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using DB.Repositories.Task;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
@@ -9,11 +10,16 @@ using WebAPI.Sevices;
 
 namespace WebAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [ApiController]
     public class WebTasksController : ControllerBase
     {
-        private WebTaskMapper _mapper = new WebTaskMapper();
+        public readonly IMapper<WebTask, TaskFilter> WebTaskMapper;
+
+        public WebTasksController(IMapper<WebTask, TaskFilter> webTaskMapper)
+        {
+            WebTaskMapper = webTaskMapper;
+        }
 
         // GET: api/WebTasks
         /// <summary>
@@ -23,7 +29,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<WebTask>> Get()
         {
-            return Ok(_mapper.Get());
+            return Ok(WebTaskMapper.GetList());
         }
 
         /// <summary>
@@ -35,7 +41,7 @@ namespace WebAPI.Controllers
         [HttpGet("{id}", Name = "Get")]
         public ActionResult<WebTask> Get(int id)
         {
-            return Ok(_mapper.Get(id));
+            return Ok(WebTaskMapper.Get(new TaskFilter(id)));
         }
 
         /// <summary>
@@ -47,7 +53,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public ActionResult<long> Post([FromBody] WebTaskValid task)
         {
-            return Ok(_mapper.Save((WebTask)task));
+            return Ok(WebTaskMapper.Save((WebTask)task));
         }
     }
 }

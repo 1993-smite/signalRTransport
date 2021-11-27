@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebAPI.Services
 {
-    interface IConverter<TDB,TView>
+    public interface IConverter<TDB,TView>
     {
         /// <summary>
         /// convert view model to db model

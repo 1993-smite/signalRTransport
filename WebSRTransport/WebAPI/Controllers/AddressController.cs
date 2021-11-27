@@ -3,6 +3,7 @@ using System.Linq;
 using System.Text.Json;
 using Clasterization;
 using Clasterization.Location;
+using DB.Repositories.Address;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
@@ -15,7 +16,12 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AddressController : ControllerBase
     {
-        private PlaceMapper _mapper = new PlaceMapper();
+        public readonly IMapper<Place, AddressFilter> PlaceMapper;
+
+        public AddressController(IMapper<Place, AddressFilter> placeMapper)
+        {
+            PlaceMapper = placeMapper;
+        }
 
         /// <summary>
         /// получение списка мест
@@ -27,7 +33,7 @@ namespace WebAPI.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Place>> Get(string filter = "", int count = 10)
         {
-            return Ok(_mapper.Get(filter, count));
+            return Ok(PlaceMapper.GetList(new AddressFilter(filter, count)));
         }
 
         /// <summary>
@@ -39,7 +45,7 @@ namespace WebAPI.Controllers
         [HttpPost]
         public ActionResult<long> Post([FromBody] PlaceValid place)
         {
-            _mapper.Save((Place)place);
+            PlaceMapper.Save((Place)place);
             return Ok();
         }
     }

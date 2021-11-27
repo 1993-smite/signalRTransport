@@ -7,7 +7,7 @@ using WebAPI.Models;
 
 namespace WebAPI.Sevices.Address
 {
-    public class PlaceMapper : IMapper<Place>
+    public class PlaceMapper : IMapper<Place, AddressFilter>
     {
         private Lazy<AddressRepository> _rep = new Lazy<AddressRepository>(()=> new AddressRepository());
         AddressRepository AddressRepository => _rep.Value;
@@ -16,17 +16,12 @@ namespace WebAPI.Sevices.Address
         PlaceConverter PlaceConverter => _converter.Value;
 
 
-        public IEnumerable<Place> Get(string filter = "", int count = 10)
+        public IEnumerable<Place> GetList(AddressFilter filter = default(AddressFilter))
         {
-            return AddressRepository.GetList(new AddressFilter(filter, count)).Select(x=> PlaceConverter.toView(x));
+            return AddressRepository.GetList(filter).Select(x=> PlaceConverter.toView(x));
         }
 
-        public IEnumerable<Place> Get()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Place Get(long id)
+        public Place Get(AddressFilter filter)
         {
             throw new NotImplementedException();
         }

@@ -13,32 +13,32 @@ namespace WebAPI.Controllers
     [ApiController]
     public class EmployeeController : ControllerBase
     {
-        public IDapperRepository<Employee> _employeeRepository;
+        public readonly IDapperRepository<Employee> EmployeeRepository;
 
         public EmployeeController(IDapperRepository<Employee> employeeRepository)
         {
-            _employeeRepository = employeeRepository;
+            EmployeeRepository = employeeRepository;
         }
 
         // GET: EmployeeController
         [HttpGet]
         public ActionResult Index()
         {
-            return Ok(_employeeRepository.GetList());
+            return Ok(EmployeeRepository.GetList());
         }
 
         // GET: EmployeeController/Details/5
         [HttpGet]
         public ActionResult Card(int id)
         {
-            return Ok(_employeeRepository.Get(id));
+            return Ok(EmployeeRepository.Get(id));
         }
 
         // POST: EmployeeController/Create
         [HttpPost]
         public ActionResult Create(Employee employee)
         {
-            _employeeRepository.Create(employee);
+            EmployeeRepository.Create(employee);
             return Ok();
         }
 
@@ -46,7 +46,7 @@ namespace WebAPI.Controllers
         [HttpPut]
         public ActionResult Edit(Employee employee)
         {
-            _employeeRepository.Update(employee);
+            EmployeeRepository.Update(employee);
             return Ok();
         }
 
@@ -54,7 +54,7 @@ namespace WebAPI.Controllers
         [HttpDelete]
         public ActionResult Delete(int id)
         {
-            _employeeRepository.Delete(id);
+            EmployeeRepository.Delete(id);
             return Ok();
         }
     }

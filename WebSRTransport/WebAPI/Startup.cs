@@ -7,6 +7,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
+using WebAPI.Models;
+using WebAPI.Sevices;
+using WebAPI.Sevices.Address;
+using Microsoft.Extensions.Hosting;
+using DB.Repositories.Address;
+using DB.Repositories.Task;
 
 namespace WebAPI
 {
@@ -53,17 +59,24 @@ namespace WebAPI
             return String.Format(@"{0}\WebAPI.XML", AppDomain.CurrentDomain.BaseDirectory);
         }
 
+        #region db services
         public void ConfigureServicesDB(IServiceCollection services)
         {
             string connectionString = Configuration.GetValue<string>("SQL_SERVER.Test");
 
-            services.AddTransient<IDapperRepository<Employee>, EmployeeRepository>(provider => new EmployeeRepository(connectionString));
-        }
+            services.AddTransient<IDapperRepository<Employee>, EmployeeRepository>(
+                provider => new EmployeeRepository(connectionString));
 
-            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+            services.AddTransient<IMapper<Place, AddressFilter>, PlaceMapper>(
+                provider => new PlaceMapper());
+            services.AddTransient<IMapper<WebTask, TaskFilter>, WebTaskMapper>(
+                provider => new WebTaskMapper());
+        }
+        #endregion
+
+        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
