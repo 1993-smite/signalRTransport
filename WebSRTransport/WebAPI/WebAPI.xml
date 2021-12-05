@@ -59,6 +59,11 @@
             type of film (comedy, dramma, triller)
             </summary>
         </member>
+        <member name="T:WebAPI.Models.PlaceCoord">
+            <summary>
+            geographic coordinates
+            </summary>
+        </member>
         <member name="T:WebAPI.Models.Place">
             <summary>
             model of address

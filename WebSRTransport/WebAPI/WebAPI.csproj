@@ -16,6 +16,11 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="10.3.3" />
+    <PackageReference Include="Itinero" Version="1.5.1" />
+    <PackageReference Include="Itinero.Geo" Version="1.5.1" />
+    <PackageReference Include="Itinero.IO.Osm" Version="1.5.1" />
+    <PackageReference Include="Itinero.IO.Shape" Version="1.5.1" />
+    <PackageReference Include="Itinero.Optimization" Version="0.14.5" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />

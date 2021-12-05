@@ -17,6 +17,11 @@ namespace WebAPI.Sevices
 
         public TItem GetOrCreate(object key, Func<TItem> createItem)
         {
+            return GetOrCreate(key, createItem, DateTime.Now.AddDays(2));
+        }
+
+        public TItem GetOrCreate(object key, Func<TItem> createItem, DateTimeOffset dateTimeOffset)
+        {
             TItem cacheEntry;
             if (!_cache.TryGetValue(key, out cacheEntry)) // Ищем ключ в кэше.
             {
@@ -24,7 +29,7 @@ namespace WebAPI.Sevices
                 cacheEntry = createItem();
 
                 // Сохраняем данные в кэше. 
-                _cache.Set(key, cacheEntry);
+                _cache.Set(key, cacheEntry, dateTimeOffset);
             }
             return cacheEntry;
         }
