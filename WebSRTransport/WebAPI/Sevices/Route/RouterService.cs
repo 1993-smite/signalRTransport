@@ -1,6 +1,7 @@
 ﻿using Itinero;
 using Itinero.IO.Osm;
 using Itinero.Osm.Vehicles;
+using System.Diagnostics;
 using System.IO;
 
 namespace WebAPI.Sevices
@@ -33,11 +34,18 @@ namespace WebAPI.Sevices
 
         private Router GetRouter()
         {
+            Stopwatch stopWatch = new Stopwatch();
+
+            stopWatch.Start();
+
             var routerDb = new RouterDb();
             using (var stream = new FileInfo(path).OpenRead())
             {
                 routerDb.LoadOsmData(stream, Vehicle.Car);
             }
+
+            stopWatch.Stop();
+            var dt = stopWatch.Elapsed;
 
             var router = new Router(routerDb);
 
