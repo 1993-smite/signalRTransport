@@ -31,9 +31,13 @@ namespace WebAPI
             //services.AddMvc();
             ConfigureServicesDB(services);
 
+            services.AddSingleton(Configuration);
+
             services.AddResponseCaching();
 
             services.AddMemoryCache();
+
+            ConfigureServicesMap(services);
 
             services.AddControllersWithViews(mvcOtions =>
             {
@@ -60,6 +64,10 @@ namespace WebAPI
         }
 
         #region db services
+        /// <summary>
+        /// configure db services
+        /// </summary>
+        /// <param name="services"></param>
         public void ConfigureServicesDB(IServiceCollection services)
         {
             string connectionString = Configuration.GetValue<string>("SQL_SERVER.Test");
@@ -71,6 +79,19 @@ namespace WebAPI
                 provider => new PlaceMapper());
             services.AddTransient<IMapper<WebTask, TaskFilter>, WebTaskMapper>(
                 provider => new WebTaskMapper());
+        }
+        #endregion
+
+        #region route map service
+        /// <summary>
+        /// configure map service
+        /// </summary>
+        /// <param name="services"></param>
+        public void ConfigureServicesMap(IServiceCollection services)
+        {
+            string routePath = Configuration.GetValue<string>("MapMoscowPath");
+
+            
         }
         #endregion
 

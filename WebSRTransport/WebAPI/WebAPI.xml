@@ -84,6 +84,18 @@
             validation for web task
             </summary>
         </member>
+        <member name="T:WebAPI.Sevices.RouterService">
+            <summary>
+            route service
+            </summary>
+        </member>
+        <member name="M:WebAPI.Sevices.RouterService.#ctor(System.String,WebAPI.Sevices.Cache{Itinero.Router})">
+            <summary>
+            constructor
+            </summary>
+            <param name="filePath"></param>
+            <param name="cache"></param>
+        </member>
         <member name="M:WebAPI.Services.FilmMapper.GetFilms(System.Int32,System.Int32,System.String,System.Int32,System.Int32)">
             <summary>
             get films by params
@@ -141,6 +153,18 @@
             </summary>
             <param name="from"></param>
             <returns></returns>
+        </member>
+        <member name="M:WebAPI.Startup.ConfigureServicesDB(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            configure db services
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:WebAPI.Startup.ConfigureServicesMap(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            configure map service
+            </summary>
+            <param name="services"></param>
         </member>
     </members>
 </doc>

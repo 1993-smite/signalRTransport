@@ -1,4 +1,5 @@
-﻿using FluentValidation;
+﻿using Clasterization;
+using FluentValidation;
 using System.ComponentModel.DataAnnotations;
 
 namespace WebAPI.Models
@@ -10,6 +11,22 @@ namespace WebAPI.Models
     {
         public decimal Lon { get; set; }
         public decimal Lat { get; set; }
+
+        public PlaceCoord()
+        {
+
+        }
+
+        public PlaceCoord(decimal lat, decimal lon)
+        {
+            Lon = lon;
+            Lat = lat;
+        }
+
+        public GeographicPoint toGeographic()
+        {
+            return new GeographicPoint(0, decimal.ToDouble(Lat), decimal.ToDouble(Lon));
+        }
     }
 
     /// <summary>

@@ -1,30 +1,44 @@
 ﻿using Itinero;
 using Itinero.IO.Osm;
 using Itinero.Osm.Vehicles;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace WebAPI.Sevices
 {
-    public class RouterService
+
+    interface IRouterService
+    {
+        Router GetCachedRouter(string key = null);
+    }
+
+    /// <summary>
+    /// route service
+    /// </summary>
+    public class RouterService: IRouterService
     {
         private const string Key = "RouterDefaultKey";
         private Cache<Router> _cache;
-        public RouterService(Cache<Router> cache = null)
+        private string path = @"D:\Moscow.osm.pbf";
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="filePath"></param>
+        /// <param name="cache"></param>
+        public RouterService(string filePath,Cache<Router> cache = null)
         {
+            path = filePath;
             _cache = cache ?? new Cache<Router>();
         }
 
         private Router GetRouter()
         {
             var routerDb = new RouterDb();
-            using (var stream = new FileInfo(@"D:\Moscow.osm.pbf").OpenRead())
+            using (var stream = new FileInfo(path).OpenRead())
             {
                 routerDb.LoadOsmData(stream, Vehicle.Car);
             }
+
             var router = new Router(routerDb);
 
             return router;
