@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Clasterization", "..\..\Loc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DBDapper", "DBDapper\DBDapper.csproj", "{2F11907D-0881-4935-89F7-F69E960B0E8E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common.lib.cqrs.commands", "User.Lib.cqrs\Common.lib.cqrs.commands.csproj", "{BD7C3DDE-5318-49AC-ADD8-33532E52E308}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB.lib.commands", "DB.lib.commands\DB.lib.commands.csproj", "{CDEAD2A6-E7A5-408B-B083-160443196484}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{2F11907D-0881-4935-89F7-F69E960B0E8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F11907D-0881-4935-89F7-F69E960B0E8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F11907D-0881-4935-89F7-F69E960B0E8E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BD7C3DDE-5318-49AC-ADD8-33532E52E308}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BD7C3DDE-5318-49AC-ADD8-33532E52E308}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BD7C3DDE-5318-49AC-ADD8-33532E52E308}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BD7C3DDE-5318-49AC-ADD8-33532E52E308}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDEAD2A6-E7A5-408B-B083-160443196484}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDEAD2A6-E7A5-408B-B083-160443196484}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDEAD2A6-E7A5-408B-B083-160443196484}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDEAD2A6-E7A5-408B-B083-160443196484}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
