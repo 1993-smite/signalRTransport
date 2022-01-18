@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Merge\MergeProject\DB\DB.csproj" />
-    <ProjectReference Include="..\User.Lib.cqrs\Common.lib.cqrs.commands.csproj" />
+    <ProjectReference Include="..\Common.lib.cqrs.commands\Common.lib.cqrs.commands.csproj" />
   </ItemGroup>
 
 </Project>
