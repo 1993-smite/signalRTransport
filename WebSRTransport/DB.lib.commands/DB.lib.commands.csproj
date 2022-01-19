@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Merge\MergeProject\DB\DB.csproj" />
     <ProjectReference Include="..\Common.lib.cqrs.commands\Common.lib.cqrs.commands.csproj" />
   </ItemGroup>
