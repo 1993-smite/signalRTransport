@@ -6,21 +6,23 @@ using Common.lib.cqrs.commands.Commands.Answer;
 
 namespace Common.lib.cqrs.commands.Commands
 {
-    public class CommandSaveHandler<TModel, TFilter>
-        : CommandHandler<TModel, TFilter, TModel>
+    public class CommandSaveHandler<TModel>
+        : IRequestHandler<Command<TModel, TModel>, Answer<TModel>>
     {
-        public CommandSaveHandler(IMediator mediator, CommonRepository<TModel, TFilter> repository)
-            : base(mediator, repository)
+        protected readonly IMediator _mediator;
+        protected readonly ICommonSaveRepository<TModel> _repository;
+
+        public CommandSaveHandler(IMediator mediator, ICommonSaveRepository<TModel> repository)
         {
-            
+            _mediator = mediator;
+            _repository = repository;
         }
 
-
-        public virtual Task<Answer<TModel>> Handle(Command<TModel, TModel> request, CancellationToken cancellationToken)
+        public Task<Answer<TModel>> Handle(Command<TModel, TModel> request, CancellationToken cancellationToken)
         {
             var mdl = _repository.SaveTransaction(request.Model);
 
-            return Task.Run(()=> new Answer<TModel>(mdl, AnswerState.Done));
+            return Task.FromResult(new Answer<TModel>(mdl, AnswerState.Done));
         }
     }
 }

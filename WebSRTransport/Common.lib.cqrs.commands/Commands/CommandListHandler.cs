@@ -8,13 +8,12 @@ using System.Collections.Generic;
 namespace Common.lib.cqrs.commands.Commands
 {
     public class CommandListHandler<TModel, TFilter>
-        : CommandHandler<TModel, TFilter, IEnumerable<TModel>>
     {
-        
-        public CommandListHandler(IMediator mediator, CommonRepository<TModel, TFilter> repository)
-            : base(mediator, repository)
+        protected readonly ICommonGetRepository<TModel, TFilter> _repository;
+
+        public CommandListHandler(ICommonGetRepository<TModel, TFilter> repository)
         {
-            
+            _repository = repository;   
         }
 
 
@@ -22,7 +21,7 @@ namespace Common.lib.cqrs.commands.Commands
         {
             var mdls = _repository.GetList(request.Model);
 
-            return Task.Run(() => new Answer<IEnumerable<TModel>>(mdls, AnswerState.Done));
+            return Task.FromResult(new Answer<IEnumerable<TModel>>(mdls, AnswerState.Done));
         }
     }
 }
