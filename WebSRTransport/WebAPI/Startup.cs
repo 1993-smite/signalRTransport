@@ -6,13 +6,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi.Models;
 using WebAPI.Models;
 using WebAPI.Sevices;
 using WebAPI.Sevices.Address;
 using Microsoft.Extensions.Hosting;
 using DB.Repositories.Address;
 using DB.Repositories.Task;
+using Microsoft.OpenApi.Models;
 
 namespace WebAPI
 {
