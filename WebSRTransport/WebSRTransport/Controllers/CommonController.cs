@@ -13,6 +13,12 @@ namespace WebSRTransport.Controllers
     [ApiController]
     public class CommonController : ControllerBase
     {
+        public static NLog.Logger Logger
+            = NLog.Web
+            .NLogBuilder
+            .ConfigureNLog("nlog.config")
+            .GetCurrentClassLogger();
+
         private readonly IHubContext<CommonHub> _hubContext;
 
         public CommonController(IHubContext<CommonHub> hubContext) : base()
@@ -24,6 +30,8 @@ namespace WebSRTransport.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
+            Logger.Info("Common get Test");
+
             return new string[] { "value1", "value2" };
         }
 
@@ -31,6 +39,7 @@ namespace WebSRTransport.Controllers
         [HttpPost]
         public async void SendAll([FromBody] string message)
         {
+            Logger.Info($"send all message {message}");
             await _hubContext.Clients.All.SendAsync("Send", message);
         }
 
@@ -38,6 +47,8 @@ namespace WebSRTransport.Controllers
         [HttpPost]
         public async void SendGroup([FromBody] SendParamHub param)
         {
+            Logger.Info($"send group {param}");
+
             await _hubContext.Clients.Group(param.group).SendAsync("Send", param.message);
         }
     }

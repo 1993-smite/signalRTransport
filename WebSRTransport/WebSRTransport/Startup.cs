@@ -20,12 +20,13 @@ namespace WebSRTransport
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors();
             services.AddControllersWithViews(mvcOtions =>
             {
                 mvcOtions.EnableEndpointRouting = false;
             });
-            services.AddSwaggerGen();
             services.AddSignalR();
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,20 +41,19 @@ namespace WebSRTransport
                 app.UseHsts();
             }
 
-
+            app.UseRouting();
 
             // подключаем CORS
-            //app.UseCors(builder => builder.WithOrigins(
-            //        "https://localhost:8080",
-            //        "https://localhost:9999"
-            //        ).AllowAnyOrigin()
-            //         .AllowAnyHeader()
-            //         .AllowAnyMethod()
-            //         .AllowCredentials());
-            app.UseCors(builder => builder.AllowAnyOrigin()
-                                          .AllowAnyHeader()
-                                          .AllowAnyMethod());
-
+            app.UseCors(builder => builder.WithOrigins(
+                    "https://localhost:8080",
+                    "http://localhost:8080",
+                    "https://localhost:9999",
+                    "http://localhost:9999",
+                    "https://localhost:9000",
+                    "http://localhost:9000"
+                    ).AllowAnyHeader()
+                     .AllowAnyMethod()
+                     .AllowCredentials());
 
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
@@ -65,15 +65,15 @@ namespace WebSRTransport
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "TransportSignalR");
             });
 
-
-            app.UseSignalR(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapHub<ChatHub>("/chat");
-                routes.MapHub<FilmHub>("/film");
-                routes.MapHub<CommonHub>("/common");
+                endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapHub<FilmHub>("/film");
+                endpoints.MapHub<CommonHub>("/common");
+                endpoints.MapDefaultControllerRoute();
             });
 
-            app.UseMvcWithDefaultRoute();
+            //app.UseMvcWithDefaultRoute();
         }
     }
 }

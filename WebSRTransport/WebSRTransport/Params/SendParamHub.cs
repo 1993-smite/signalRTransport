@@ -14,5 +14,14 @@
         /// message
         /// </summary>
         public string message { get; set; }
+
+        /// <summary>
+        /// this object to string 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return $"group: {group}, message: {message}";
+        }
     }
 }

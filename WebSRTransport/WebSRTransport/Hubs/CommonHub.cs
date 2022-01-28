@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using NLog;
 
 namespace WebSRTransport.Hubs
 {
@@ -13,8 +14,16 @@ namespace WebSRTransport.Hubs
 
     public class CommonHub: Hub
     {
+        public static NLog.Logger Logger 
+            = NLog.Web
+            .NLogBuilder
+            .ConfigureNLog("nlog.config")
+            .GetCurrentClassLogger();
+
         public async Task Send(string message, string group = "")
         {
+            Logger.Info($"{Context.ConnectionId} send to '{group}' group message: {message}");
+
             if (string.IsNullOrWhiteSpace(group))
                 await this.Clients.All.SendAsync("Send", message);
             else
@@ -25,6 +34,8 @@ namespace WebSRTransport.Hubs
         {
             var group = Context.GetHttpContext().Request.Query[HubConstant.GroupKey];
 
+            Logger.Info($"{Context.ConnectionId} connect to '{group}' group ");
+
             string value = !string.IsNullOrEmpty(group.ToString()) ? group.ToString() : "default";
             await Groups.AddToGroupAsync(Context.ConnectionId, value);
             await base.OnConnectedAsync();
@@ -32,6 +43,8 @@ namespace WebSRTransport.Hubs
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
+            Logger.Info($"{Context.ConnectionId} dicconnected exception: {exception}");
+
             return base.OnDisconnectedAsync(exception);
         }
     }
