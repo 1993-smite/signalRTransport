@@ -1,5 +1,6 @@
 import 'materialize-css/dist/css/materialize.min.css'
-import 'material-design-icons/iconfont/material-icons.css'
+//import 'material-design-icons/iconfont/material-icons.css'
+import 'material-icons/iconfont/material-icons.css'
 import 'vue3-openlayers/dist/vue3-openlayers.css'
 import 'ol/ol.css'
 import './main.css'
