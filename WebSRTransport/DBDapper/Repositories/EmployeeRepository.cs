@@ -9,7 +9,7 @@ using System.Text;
 
 namespace DBDapper.Repositories
 {
-    public static class Schema
+    public static class SchemaEMPLOYEE
     {
         public static string Table => "EMPLOYEE";
         public static string Id => "EMP_ID";
@@ -30,11 +30,11 @@ namespace DBDapper.Repositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                var sqlQuery = $"INSERT INTO {Schema.Table} (" +
-                    $"{Schema.Id}" +
-                    $",{Schema.LastName}" +
-                    $",{Schema.FirstName}" +
-                    $",{Schema.Title}" +
+                var sqlQuery = $"INSERT INTO {SchemaEMPLOYEE.Table} (" +
+                    $"{SchemaEMPLOYEE.Id}" +
+                    $",{SchemaEMPLOYEE.LastName}" +
+                    $",{SchemaEMPLOYEE.FirstName}" +
+                    $",{SchemaEMPLOYEE.Title}" +
                     $" VALUES(" +
                     $"@{nameof(employee.EMP_ID)}" +
                     $",@{nameof(employee.LAST_NAME)}" +
@@ -51,14 +51,14 @@ namespace DBDapper.Repositories
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                return db.Query<Employee>($"SELECT * FROM {Schema.Table} WHERE {Schema.Id} = @id", new { id }).FirstOrDefault();
+                return db.Query<Employee>($"SELECT * FROM {SchemaEMPLOYEE.Table} WHERE {SchemaEMPLOYEE.Id} = @id", new { id }).FirstOrDefault();
             }
         }
         public override IEnumerable<Employee> GetList()
         {
             using (IDbConnection db = new SqlConnection(connectionString))
             {
-                return db.Query<Employee>($"SELECT * FROM {Schema.Table}").ToList();
+                return db.Query<Employee>($"SELECT * FROM {SchemaEMPLOYEE.Table}").ToList();
             }
         }
         public override void Update(Employee user)
