@@ -22,7 +22,7 @@ namespace WebSRTransport.Hubs
 
         public async Task Send(string message, string group = "")
         {
-            Logger.Info($"{Context.ConnectionId} send to '{group}' group message: {message}");
+            Logger.Trace($"{Context.ConnectionId} send to '{group}' group message: {message}");
 
             if (string.IsNullOrWhiteSpace(group))
                 await this.Clients.All.SendAsync("Send", message);
@@ -34,7 +34,7 @@ namespace WebSRTransport.Hubs
         {
             var group = Context.GetHttpContext().Request.Query[HubConstant.GroupKey];
 
-            Logger.Info($"{Context.ConnectionId} connect to '{group}' group ");
+            Logger.Trace($"{Context.ConnectionId} connect to '{group}' group ");
 
             string value = !string.IsNullOrEmpty(group.ToString()) ? group.ToString() : "default";
             await Groups.AddToGroupAsync(Context.ConnectionId, value);
@@ -43,7 +43,7 @@ namespace WebSRTransport.Hubs
 
         public override Task OnDisconnectedAsync(Exception exception)
         {
-            Logger.Info($"{Context.ConnectionId} dicconnected exception: {exception}");
+            Logger.Trace($"{Context.ConnectionId} dicconnected exception: {exception}");
 
             return base.OnDisconnectedAsync(exception);
         }

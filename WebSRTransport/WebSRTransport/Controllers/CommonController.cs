@@ -30,7 +30,7 @@ namespace WebSRTransport.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            Logger.Info("Common get Test");
+            Logger.Trace("Common get Test");
 
             return new string[] { "value1", "value2" };
         }
@@ -39,7 +39,7 @@ namespace WebSRTransport.Controllers
         [HttpPost]
         public async void SendAll([FromBody] string message)
         {
-            Logger.Info($"send all message {message}");
+            Logger.Trace($"send all message {message}");
             await _hubContext.Clients.All.SendAsync("Send", message);
         }
 
@@ -47,7 +47,7 @@ namespace WebSRTransport.Controllers
         [HttpPost]
         public async void SendGroup([FromBody] SendParamHub param)
         {
-            Logger.Info($"send group {param}");
+            Logger.Trace($"send group {param}");
 
             await _hubContext.Clients.Group(param.group).SendAsync("Send", param.message);
         }
