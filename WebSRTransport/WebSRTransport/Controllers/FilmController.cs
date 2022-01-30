@@ -35,11 +35,5 @@ namespace WebSRTransport.Controllers
             var task = Task.Run(async () => await _hubContext.Clients.All.SendAsync("Send", msg));
             return Ok("done");
         }
-
-        //[HttpGet("{id}")]
-        //public async void Notify(int id)
-        //{
-        //    await _hubContext.Clients.All.SendAsync("Notify", id);
-        //}
     }
 }
