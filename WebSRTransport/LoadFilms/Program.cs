@@ -3,14 +3,14 @@ using DB.Repositories;
 using Newtonsoft.Json;
 using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 
 namespace LoadFilms
 {
-    class Program
+    public static class Program
     {
 
-        //static string url = "https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-filters?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=1888&yearTo=2020&page=1";
         static string url = "https://kinopoiskapiunofficial.tech/api/v2.1/films/search-by-filters?order=RATING&type=ALL&ratingFrom=0&ratingTo=10&yearFrom=1888&yearTo=2020";
 
         static void Main(string[] args)
@@ -18,7 +18,7 @@ namespace LoadFilms
             var rep = new FilmRepository();
 
             int page = 0;
-            long pageCount = 2;
+            long pageCount = 10;
             while (page++ < pageCount)
             {
                 var res = Get($"{url}&page={page}");
@@ -30,12 +30,19 @@ namespace LoadFilms
                 {
                     var item = list[index];
 
-                    var film = rep.Get(item.nameRu.Value);
+                    var name = (string)item.nameRu.Value;
 
+                    var film = rep.Get(name)
+                        .FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
+
+                    // load dbfilm from json
                     var f = film ?? new DBFilm();
                     f.Status = 0;
                     f.Name = item.nameRu.Value;
-                    f.Year = int.Parse(item.year.Value.Replace(".","").Replace("-",""));
+                    f.Year = int.Parse(item.year.Value.Replace(".", "").Replace("-", ""));
+
+                    double.TryParse(((string)item.rating.Value).Replace('.', ','), out double rating);
+                    f.Rating = rating;
                     f.Country = "";
                     foreach (var itm in item.countries)
                     {
@@ -43,6 +50,7 @@ namespace LoadFilms
                     }
                     f.Country.Trim(',');
 
+                    // save dbfilm
                     rep.Save(f);
 
                 }
@@ -53,15 +61,17 @@ namespace LoadFilms
 
         static string Get(string URI)
         {
-            WebClient client = new WebClient();
+            string json;
 
-            client.Headers.Add("X-API-KEY", "61b9e458-e22b-4fcb-b7d9-4c1bce7fe041");
+            using (WebClient client = new WebClient())
+            {
+                client.Headers.Add("X-API-KEY", "61b9e458-e22b-4fcb-b7d9-4c1bce7fe041");
+                Stream data = client.OpenRead(URI);
+                StreamReader reader = new StreamReader(data);
+                json = reader.ReadToEnd();
+            }
 
-            Stream data = client.OpenRead(URI);
-            StreamReader reader = new StreamReader(data);
-            string s = reader.ReadToEnd();
-
-            return s;
+            return json;
         }
     }
 }
