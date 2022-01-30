@@ -1,7 +1,6 @@
 ﻿using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -67,8 +66,7 @@ namespace WebSRTransport
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "TransportSignalR");
             });
 
-            //app.Map("/", Swagger);
-
+            // end points
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<ChatHub>("/chat");
@@ -76,8 +74,6 @@ namespace WebSRTransport
                 endpoints.MapHub<CommonHub>("/common");
                 endpoints.MapDefaultControllerRoute();
             });
-
-            //app.UseMvcWithDefaultRoute();
         }
     }
 }

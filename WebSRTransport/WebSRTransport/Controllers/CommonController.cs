@@ -27,6 +27,10 @@ namespace WebSRTransport.Controllers
         }
 
         // GET: api/<controller>
+        /// <summary>
+        /// get for test
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IEnumerable<string> Get()
         {
@@ -36,6 +40,10 @@ namespace WebSRTransport.Controllers
         }
 
         // POST api/<controller>
+        /// <summary>
+        /// send [all] message
+        /// </summary>
+        /// <param name="message"></param>
         [HttpPost]
         public async void SendAll([FromBody] string message)
         {
@@ -43,7 +51,10 @@ namespace WebSRTransport.Controllers
             await _hubContext.Clients.All.SendAsync("Send", message);
         }
 
-
+        /// <summary>
+        /// send [group] message
+        /// </summary>
+        /// <param name="param"></param>
         [HttpPost]
         public async void SendGroup([FromBody] SendParamHub param)
         {
