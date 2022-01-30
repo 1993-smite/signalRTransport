@@ -33,7 +33,7 @@ namespace LoadFilms
                     var name = (string)item.nameRu.Value;
 
                     var film = rep.Get(name)
-                        .FirstOrDefault(x => string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
+                        .SingleOrDefault(x => string.Equals(x.Name, name, StringComparison.InvariantCultureIgnoreCase));
 
                     // load dbfilm from json
                     var f = film ?? new DBFilm();
