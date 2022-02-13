@@ -27,7 +27,7 @@ namespace WebSRTransport
         {
             services.AddSignalR();
 
-            services.AddHostedService<FilmRabbitService>();
+            services.AddHostedService<CommonRabbitMqSignalRService>();
 
             services.AddCors();
             services.AddControllersWithViews(mvcOtions =>
