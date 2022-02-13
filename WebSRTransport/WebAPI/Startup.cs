@@ -13,6 +13,8 @@ using Microsoft.Extensions.Hosting;
 using DB.Repositories.Address;
 using DB.Repositories.Task;
 using Microsoft.OpenApi.Models;
+using RabbitCore.Core;
+using RabbitCore.Core.Listeners;
 
 namespace WebAPI
 {
@@ -28,6 +30,7 @@ namespace WebAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddHostedService<RabbitMqListenerService>();
             //services.AddMvc();
             ConfigureServicesDB(services);
 
@@ -38,6 +41,8 @@ namespace WebAPI
             services.AddMemoryCache();
 
             ConfigureServicesMap(services);
+
+            services.AddScoped<IRabbitMqService, RabbitMqService>();
 
             services.AddControllersWithViews(mvcOtions =>
             {

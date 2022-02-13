@@ -23,6 +23,7 @@
     <PackageReference Include="Itinero.Optimization" Version="0.14.5" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.9" />
+    <PackageReference Include="RabbitMQ.Client" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.2.3" />
@@ -33,6 +34,7 @@
     <ProjectReference Include="..\..\..\Location\Clasterization\Clasterization.csproj" />
     <ProjectReference Include="..\..\..\Merge\MergeProject\DB\DB.csproj" />
     <ProjectReference Include="..\DBDapper\DBDapper.csproj" />
+    <ProjectReference Include="..\RabbitCore\RabbitCore.csproj" />
   </ItemGroup>
 
   <ItemGroup>
