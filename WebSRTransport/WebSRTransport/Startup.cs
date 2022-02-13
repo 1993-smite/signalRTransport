@@ -4,8 +4,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using RabbitCore.Core.Listeners;
 using WebSRTransport.Hubs;
 using WebSRTransport.Validators;
+using MassTransit.RabbitMqTransport;
+using MassTransit;
+using WebSRTransport.Services;
 
 namespace WebSRTransport
 {
@@ -21,12 +25,15 @@ namespace WebSRTransport
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSignalR();
+
+            services.AddHostedService<FilmRabbitService>();
+
             services.AddCors();
             services.AddControllersWithViews(mvcOtions =>
             {
                 mvcOtions.EnableEndpointRouting = false;
             }).AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<SendParamHubValidator>());
-            services.AddSignalR();
             services.AddSwaggerGen();
         }
 
