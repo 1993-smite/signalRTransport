@@ -1,0 +1,31 @@
+﻿@using Rabbit.Shower.Models
+@model AccountView
+
+<h1>Login</h1>
+
+<style>
+    .error{
+        color: red
+    }
+</style>
+
+<form asp-controller="Account" asp-action="Login">
+    <input hidden asp-for="ReturnUrl" />
+
+    <div>
+        <label for="">Login</label>
+        <input asp-for="Login" />
+        <span asp-validation-for="Login" class="error"></span>
+    </div>
+
+    <div>
+        <label for="">Password</label>
+        <input asp-for="Password" />
+        <span asp-validation-for="Password" class="error"></span>
+    </div>
+
+    <p>
+        <button type="submit">Log In</button>
+    </p>
+
+</form>

@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <!--меню-->
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="navbar-brand">Home</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a asp-controller="Account"
+                           asp-action="Index" class="navbar-brand">Account</a>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <ul class="nav navbar-nav">
+                    <li>@ViewData["Login"]</li>
+                    <li>@ViewData["IsAuthenticated"]</li>
+                    <li><a asp-controller="Account" asp-action="Logout" class="navbar-brand">Выход</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <!--основной контент-->
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>© 2015 - MobileStore</p>
+        </footer>
+    </div>
+
+    <script src="~/js/bootstrap.js"></script>
+    <script src="~/js/site.js"></script>
+
+</body>
+</html>
