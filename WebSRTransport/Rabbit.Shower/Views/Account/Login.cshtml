@@ -9,23 +9,41 @@
     }
 </style>
 
-<form asp-controller="Account" asp-action="Login">
+<form asp-controller="Account"
+      asp-action="Login"
+      class="w-25 row g-3 needs-validation was-validated"
+      novalidate>
     <input hidden asp-for="ReturnUrl" />
 
-    <div>
-        <label for="">Login</label>
-        <input asp-for="Login" />
-        <span asp-validation-for="Login" class="error"></span>
+    <div class="mb-3">
+        <label for="login"
+               class="form-label">Login</label>
+        <input id="login"
+               class="form-control"
+               asp-for="Login" required minlength="3" />
+        <span asp-validation-for="Login"
+              class="error"></span>
     </div>
 
-    <div>
-        <label for="">Password</label>
-        <input asp-for="Password" />
-        <span asp-validation-for="Password" class="error"></span>
+    <div class="mb-3">
+
+        <label for="password"
+               class="form-label">Password</label>
+        <input id="password"
+               class="form-control"
+               asp-for="Password" required minlength="6" />
+        <span asp-validation-for="Password"
+              class="error"></span> 
+
     </div>
 
-    <p>
-        <button type="submit">Log In</button>
-    </p>
+    <div class="btn-group">
+        <a href="#" class="btn btn-danger">Сбросить</a>
+
+        <button class="btn btn-success"
+                type="submit">
+            Сохранение
+        </button>
+    </div>
 
 </form>

@@ -4,36 +4,65 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-grid.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-reboot.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-utilities.min.css" />
 </head>
+
+@{ 
+    string login = ViewData["Login"]?.ToString();
+}
+
+
 <body>
     <!--меню-->
-    <nav class="navbar navbar-inverse">
-        <div class="container">
-            <div>
-                <ul class="nav navbar-nav">
-                    <li>
+    <nav class="navbar navbar-expand-lg navbar-light bg-secondary text-dark bg-opacity-25">
+        <div class="collapse navbar-collapse">
+            <div class="container-xxl d-flex align-items-md-center">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item opacity-100">
                         <a asp-controller="Home"
                            asp-action="Index"
                            class="navbar-brand">Home</a>
                     </li>
-                </ul>
-            </div>
-            <div>
-                <ul class="nav navbar-nav">
-                    <li>
+                    <li class="nav-item opacity-100">
                         <a asp-controller="Account"
                            asp-action="Index" class="navbar-brand">Account</a>
                     </li>
                 </ul>
-            </div>
-            <div>
-                <ul class="nav navbar-nav">
-                    <li>@ViewData["Login"]</li>
-                    <li>@ViewData["IsAuthenticated"]</li>
-                    <li><a asp-controller="Account" asp-action="Logout" class="navbar-brand">Выход</a></li>
-                </ul>
+                <div class="dropdown ms-3 start-100">
+                    <button class="btn btn-bd-light dropdown-toggle opacity-100" 
+                            id="bd-login" 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false" 
+                            data-bs-display="static">
+                        <span class="d-none d-lg-inline">@ViewData["Login"]</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end"
+                        aria-labelledby="bd-login">
+                        @if (!string.IsNullOrWhiteSpace(login))
+                        {
+                            <li>
+                                <a class="dropdown-item current opacity-100"
+                                   aria-current="true"
+                                   asp-controller="Account"
+                                   asp-action="Logout">Выход </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="dropdown-item current opacity-100"
+                                   aria-current="true"
+                                   asp-controller="Account"
+                                   asp-action="Login">Вход </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>
@@ -47,6 +76,8 @@
     </div>
 
     <script src="~/js/bootstrap.js"></script>
+    @*<script src="~/js/bootstrap.bundle.min.js"></script>
+        <script src="~/js/bootstrap.esm.min.js"></script>*@
     <script src="~/js/site.js"></script>
 
 </body>

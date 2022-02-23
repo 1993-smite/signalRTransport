@@ -38,7 +38,7 @@ namespace Rabbit.Shower.Controllers
             var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
             HttpContext.SignInAsync("Cookie", claimsPrincipal);
 
-            return Redirect(model.ReturnUrl);
+            return Redirect(model.ReturnUrl ?? "/");
         }
 
         public IActionResult Logout()

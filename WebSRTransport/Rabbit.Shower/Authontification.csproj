@@ -5,7 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="bootstrap" Version="5.1.3" />
+    <Content Update="C:\Users\Касса\.nuget\packages\bootstrap\5.1.3\contentFiles\any\any\wwwroot\css\bootstrap.css">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
