@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Merge\MergeProject\DB\DB.csproj" />
     <ProjectReference Include="..\RabbitCore\RabbitCore.csproj" />
   </ItemGroup>
 
